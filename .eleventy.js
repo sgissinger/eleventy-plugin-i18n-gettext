@@ -12,7 +12,7 @@ module.exports = (eleventyConfig, options = {}) => {
 
     eleventyConfig.on('beforeWatch', () => {
         i18n.gettext = undefined
-        i18n.loadTranslations(options)
+        i18n.loadTranslations()
     })
 }
 
