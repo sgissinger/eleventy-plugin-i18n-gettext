@@ -1,0 +1,35 @@
+{
+  "name": "eleventy-plugin-i18n-gettext",
+  "version": "1.0.0",
+  "description": "Eleventy plugin which adds i18n with gettext and moment.js support",
+  "main": ".eleventy.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sgissinger/eleventy-plugin-i18n-gettext.git"
+  },
+  "keywords": [
+    "eleventy",
+    "eleventy-plugin",
+    "11ty",
+    "i18n",
+    "gettext"
+  ],
+  "author": "Sebastien Gissinger",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sgissinger/eleventy-plugin-i18n-gettext/issues"
+  },
+  "homepage": "https://github.com/sgissinger/eleventy-plugin-i18n-gettext#readme",
+  "peerDependencies": {
+    "@11ty/eleventy": "^0.11.0"
+  },
+  "dependencies": {
+    "node-gettext": "^3.0.0",
+    "gettext-parser": "^4.0.4",
+    "printf": "^0.5.3",
+    "glob": "^7.1.6",
+    "moment": "^2.27.0"
+  },
+  "devDependencies": {}
+}
