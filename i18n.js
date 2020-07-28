@@ -22,7 +22,7 @@ module.exports.configuration = undefined
 module.exports.gettext = undefined
 
 module.exports.init = (options) => {
-    this.configuration = Object.assign(this.defaultConfiguration, options);
+    this.configuration = Object.assign(this.defaultConfiguration, options)
 }
 
 module.exports._ = (locale, key, ...args) => {
@@ -58,12 +58,13 @@ module.exports.relocalizePath = (locale, pagePath) => {
     return `/${pathParts.join('/')}`
 }
 
-module.exports.enhance11tydata = (obj, locale) => {
+module.exports.enhance11tydata = (obj, locale, dir = "ltr") => {
     if ( fs.existsSync(locale) ) {
         locale = path.basename(locale)
     }
 
     obj.lang = locale.substring(0, 2)
+    obj.langDir = dir
     obj.locale = locale
     obj._ = (key, ...args) => {
         return this._(locale, key, ...args)
@@ -97,12 +98,12 @@ module.exports.loadTranslations = () => {
 
         fs.readdirSync(localesDir, { withFileTypes : true }).map(locale => {
             if(locale.isDirectory()) {
-                let parsedTranslations = undefined
-
                 const filePath = path.join(localesDir, locale.name, localeFileName)
                 console.log(`Loading ${filePath}`)
 
                 const content = fs.readFileSync(filePath)
+
+                let parsedTranslations = undefined
 
                 if( this.configuration.parserMode === 'po' ) {
                     parsedTranslations = parser.po.parse(content)
