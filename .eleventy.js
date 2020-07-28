@@ -16,4 +16,9 @@ module.exports = (eleventyConfig, options = {}) => {
     })
 }
 
-module.exports = Object.assign(module.exports, i18n)
+module.exports._ = i18n._
+module.exports._n = i18n._n
+module.exports._p = i18n._p
+module.exports._d = i18n._d
+module.exports.relocalizePath = i18n.relocalizePath
+module.exports.enhance11tydata = i18n.enhance11tydata
