@@ -56,10 +56,10 @@ Locale folder casing must be exactly the same in `locales` and `src`. In this ex
 
 The simpliest manner to create `messages.po` files, is to copy them from the [demo code source](https://github.com/sgissinger/eleventy-plugin-i18n-gettext-demo/tree/master/locales).
 
-You can download PO files editors, like [Poedit](https://poedit.net). Also, Poedit can be [configured](docs/Manage-translations-with-Poedit) to extract keys from source code and add them to the PO file.
+You can download PO files editors, like [Poedit](https://poedit.net). Also, Poedit can be [configured](docs/Manage-translations-with-Poedit) to extract translation keys from source code.
 
 - `messages.po` files store translations in plain text.
-- `messages.mo` files are compiled from `messages.po`. _Poedit handle the creation of these files automatically, pushing them into your codebase is recommended_.
+- `messages.mo` files are compiled from `messages.po`. _Poedit handle the creation of these files automatically, pushing them into your code repository is recommended_.
 
 ### Create xx.11tydata.js files
 
@@ -73,14 +73,72 @@ module.exports = () => {
 }
 ```
 
+
+## Eleventy configuration
+
+Open up your Eleventy config file (probably `.eleventy.js`), import the plugin and use `addPlugin`.
+
+```js
+// .eleventy.js
+const i18n = require('eleventy-plugin-i18n-gettext')
+
+module.exports = function (eleventyConfig) {
+    eleventyConfig.addPlugin(i18n, {
+        localesDirectory: 'locales',
+        parserMode: 'po',
+        javascriptMessages: 'messages.js',
+        tokenFilePatterns: [
+            'src/**/*.njk',
+            'src/**/*.js'
+        ]
+    })
+}
 ```
-<html lang="{{ lang }}" dir="{{ langDir }}">
-```
+
+On activation, the plugin:
+- load custom options
+- attaches to `beforeBuild` and `beforeWatch` [Eleventy events](https://www.11ty.dev/docs/events)
+
+When `beforeBuild` and `beforeWatch` events are raised, the plugin:
+- browses every folders of the `localesDirectory`
+- loads/reloads translations from `PO` or `MO` files
+- finds files depending on `tokenFilePatterns`
+- searches in these files for translations keys
+- creates the `javascriptMessages` file
+
+
+### `localesDirectory`
+Type: `string` | Default: `locales`
+
+Name of the directory where `PO`, `MO` and `messages.js` files are located.
+
+It's relative to the Node process current working directory, usually the directory where is located `package.json` and from where `npm run` commands are executed.
+
+### `parserMode`
+Type: `string` | Default: `po` | AllowedValues: `po`, `mo`
+
+By default, `gettext-parser` is configured to parse `PO` text files. For large translations it may be more efficient to parse `MO` binary files.
+
+### `javascriptMessages`
+Type: `string` | Default: `messages.js`
+
+Name of the file where this plugin will store translation keys found in code source files.
+
+### `tokenFilePatterns`
+Type: `string[]` | Default: `['src/**/*.njk', 'src/**/*.js']`
+
+Glob patterns used to know which files to search for translation keys.
+
+It's relative to the Node process current working directory, usually the directory where is located `package.json` and from where `npm run` commands are executed.
 
 ## API
 
 ### `i18n.enhance11tydata(obj, locale, dir?)`
 Returns: `any`
+
+```
+<html lang="{{ lang }}" dir="{{ langDir }}">
+```
 
 #### obj
 Type: `any`
@@ -91,11 +149,8 @@ Type: `any`
 Type: `string`
 
 #### dir
-Type: `string`
+Type: `string` | Default: `ltr` | AllowedValues: `ltr`, `rtl`
 
-DefaultValue: `ltr`
-
-AcceptedValues: `ltr`, `rtl`
 
 ## Sources
 
