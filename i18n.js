@@ -10,7 +10,6 @@ const moment = require('moment')
 
 module.exports.defaultConfiguration = {
     localesDirectory: 'locales',
-    localesDomain: 'messages',
     parserMode: 'po',
     javascriptMessages: 'messages.js',
     tokenFilePatterns: [
@@ -100,7 +99,7 @@ module.exports.loadTranslations = () => {
 
     if( this.gettext === undefined ) {
         const localesDir = path.join(process.cwd(), this.configuration.localesDirectory)
-        const localeFileName = `${this.configuration.localesDomain}.${this.configuration.parserMode}`
+        const localeFileName = `messages.${this.configuration.parserMode}`
 
         this.gettext = new Gettext()
 
@@ -120,7 +119,7 @@ module.exports.loadTranslations = () => {
                     parsedTranslations = parser.mo.parse(content)
                 }
 
-                this.gettext.addTranslations(locale.name, this.configuration.localesDomain, parsedTranslations)
+                this.gettext.addTranslations(locale.name, 'messages', parsedTranslations)
             }
         })
 
