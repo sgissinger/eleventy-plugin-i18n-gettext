@@ -6,10 +6,10 @@
 - [Demo](#demo)
 - [Configuration](#configuration)
   - [Define language site directories](#define-language-site-directories)
-  - [Create messages.po files](#create-messages.po-files)
-  - [Create xx.11tydata.js files](#create-xx.11tydata.js-files)
+  - [Create messages.po files](#create-messagespo-files)
+  - [Create xx.11tydata.js files](#create-xx11tydatajs-files)
 - [API](#api)
-  - [`i18n.enhance11tydata(obj, locale, dir?)`](#i18n.enhance11tydata(obj,-locale,-dir))
+  - [`i18n.enhance11tydata(obj, locale, dir?)`](#i18nenhance11tydataobj-locale-dir)
 - [Sources](#sources)
 - [Credits](#credits)
 
