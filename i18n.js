@@ -23,6 +23,10 @@ module.exports.gettext = undefined
 
 module.exports.init = (options) => {
     this.configuration = Object.assign(this.defaultConfiguration, options)
+
+    if( !['po', 'mo'].includes(this.configuration.parserMode) ) {
+        console.error(`parserMode '${this.configuration.parserMode}' is invalid. It must be 'po' or 'mo'.`)
+    }
 }
 
 module.exports._ = (locale, key, ...args) => {
@@ -63,6 +67,10 @@ module.exports.enhance11tydata = (obj, locale, dir = "ltr") => {
         locale = path.basename(locale)
     }
 
+    if( !['ltr', 'rtl'].includes(dir) ) {
+        console.error(`Language direction '${dir}' is invalid. It must be 'ltr' or 'rtl'.`)
+    }
+
     obj.lang = locale.substring(0, 2)
     obj.langDir = dir
     obj.locale = locale
@@ -99,7 +107,7 @@ module.exports.loadTranslations = () => {
         fs.readdirSync(localesDir, { withFileTypes : true }).map(locale => {
             if(locale.isDirectory()) {
                 const filePath = path.join(localesDir, locale.name, localeFileName)
-                console.log(`Loading ${filePath}`)
+                console.log(`Loading ${filePath}.`)
 
                 const content = fs.readFileSync(filePath)
 
@@ -110,9 +118,6 @@ module.exports.loadTranslations = () => {
                 }
                 else if( this.configuration.parserMode === 'mo' ) {
                     parsedTranslations = parser.mo.parse(content)
-                }
-                else {
-                    console.error(`parserMode '${this.configuration.parserMode}' is invalid. Must be 'po' or 'mo'`)
                 }
 
                 this.gettext.addTranslations(locale.name, this.configuration.localesDomain, parsedTranslations)
@@ -146,7 +151,7 @@ module.exports.generateMessageFile = () => {
         }
 
         if(singularMatches || pluralMatches) {
-            console.log(`Localization tokens found in ${file}`)
+            console.log(`Localization tokens found in ${file}.`)
         }
     })
 
@@ -163,6 +168,6 @@ module.exports.generateMessageFile = () => {
 
     const messagesPath = path.join(process.cwd(), this.configuration.localesDirectory, this.configuration.javascriptMessages)
 
-    console.log(`Writing ${messagesPath}`)
+    console.log(`Writing ${messagesPath}.`)
     fs.writeFileSync(messagesPath, matches.join("\r\n"))
 }
