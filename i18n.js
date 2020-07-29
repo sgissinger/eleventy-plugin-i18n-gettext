@@ -25,7 +25,7 @@ module.exports.init = (options) => {
     this.configuration = Object.assign(this.defaultConfiguration, options)
 
     if( !['po', 'mo'].includes(this.configuration.parserMode) ) {
-        console.error(`parserMode '${this.configuration.parserMode}' is invalid. It must be 'po' or 'mo'.`)
+        console.error(`Parser mode '${this.configuration.parserMode}' is invalid. It must be 'po' or 'mo'.`)
     }
 }
 
