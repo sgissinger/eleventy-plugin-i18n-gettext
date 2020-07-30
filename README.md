@@ -1,7 +1,21 @@
 # eleventy-plugin-i18n-gettext
 
-[Eleventy](https://www.11ty.dev/) plugin which adds i18n with gettext and moment.js support.
+[Eleventy](https://www.11ty.dev/) plugin which adds i18n support with Gettext and moment.js.
 
+Gettext is of common use in Linux C and WordPress worlds. Gettext comes with some handy features:
+- It can extract translation keys from source code. _[Poedit configuration for translations extraction](docs/Manage-translations-with-Poedit)_.
+- It supports pluralization.
+- Translation keys are their own translation fallback value. It means that if you don't have a translation file or didn't translate some keys, the value of the key itself is used.
+- PO files editors exists, like [Poedit](https://poedit.net).
+
+In addition to Gettext features, this plugin:
+- Use printf in order to format strings with values insertion in part of a translation key
+- Use moment.js to ease dates localization
+
+:warning: Currently, this plugin does not leverage Elevety filters as it's not the common way to do Gettext internationalization and because this kind of is harder to parse with simple Regexes than a standard function signature. It may change in the future.
+
+
+## Table of content
 - [Install](#install)
 - [Demo](#demo)
 - [Get Started](#get-started)
@@ -19,7 +33,8 @@
   - [`i18n._n(locale, singular, plural, count, ...args)`](#i18n_nlocale-singular-plural-count-args)
   - [`i18n._d(locale, format, date)`](#i18n_dlocale-format-date)
   - [`i18n._p(locale, basePath)`](#i18n_plocale-basePath)
-  - [`i18n.relocalizePath(locale, pagePath)`](#i18nrelocalizePathlocale-pagePath)
+- [Shortcode](#shortcode)
+  - [`relocalizePath targetedLocale, pagePath`](#relocalizePath-targetedLocale-pagePath)
 - [Sources](#sources)
 - [Credits](#credits)
 
@@ -65,8 +80,6 @@ Locale folder casing must be exactly the same in `locales` and `src`. In this ex
 ### Create messages.po files
 
 The simpliest manner to create `messages.po` files, is to copy them from the [demo code source](https://github.com/sgissinger/eleventy-plugin-i18n-gettext-demo/tree/master/locales).
-
-You can download PO files editors, like [Poedit](https://poedit.net). Also, Poedit can be [configured](docs/Manage-translations-with-Poedit) to extract translation keys from source code.
 
 - `messages.po` files store translations in plain text.
 - `messages.mo` files are compiled from `messages.po`. _Poedit handle the creation of these files automatically, pushing them into your code repository is recommended_.
@@ -146,14 +159,36 @@ It's relative to the Node process current working directory, usually the directo
 ## API
 
 ### `i18n.enhance11tydata(obj, locale, dir?)`
-Returns: `any`
+Returns: `object`
 
-```
+Attaches additional properties and methods to `obj` and returns it:
+
+| Type     | Name
+|-|-|
+| Property | `lang`
+| Property | `langDir`
+| Property | `locale`
+| Method   | `_(key, ...args)`
+| Method   | `_n(singular, plural, count, ...args)`
+| Method   | `_d(format, date)`
+| Method   | `_p(basePath)`
+
+```html
+<!-- index.njk -->
 <html lang="{{ lang }}" dir="{{ langDir }}">
+  <body>
+    <div>{{ _('TranslateMe') }}</div>
+    <div>{{ _n('TranslateMe', 'TranslateUs', tranlationCount) }}</div>
+    <div>{{ _d('LL', page.date) }}</div>
+    <div>{{ _p('/') | url }}</div>
+  </body>
+</html>
 ```
 
 #### obj
-Type: `any`
+Type: `object`
+
+Contains the custom data you want to use in your templates.
 
 [Demo code source](https://github.com/sgissinger/eleventy-plugin-i18n-gettext-demo/blob/master/src/fr-fr/fr-fr.11tydata.js) has an example which uses a custom data object.
 
@@ -165,6 +200,7 @@ The locale as a simple language code (e.g. `en`) or language code with country c
 #### dir
 Type: `string` | Default: `ltr` | AllowedValues: `ltr`, `rtl`
 
+The locale direction, left-to-right or right-to-left
 
 ### `i18n._(locale, key, ...args)`
 Returns: `string`
@@ -202,14 +238,40 @@ Type: `string`
 The locale as a simple language code (e.g. `en`) or language code with country code suffix (e.g. `en-us`).
 
 
-### `i18n.relocalizePath(locale, pagePath)`
+## Shortcode
+
+### `relocalizePath targetedLocale, pagePath`
 Returns: `string`
 
-#### locale
+The intent of this shortcode is to construct language selectors. It replaces the locale part of the current url with the targeted locale.
+
+```json
+// _data/locales.json
+[
+    { "path": "fr-fr", "name": "Français"   },
+    { "path": "nl-nl", "name": "Nederlands" },
+    { "path": "pt-pt", "name": "Português"  },
+    { "path": "en-us", "name": "English"    },
+    { "path": "ar",    "name": "عربى"       }
+]
+```
+
+```html
+<!-- _includes/layout.njk -->
+{%- for locale in locales -%}
+    <a href="{%- relocalizePath locale.path, page.url -%}">{{ locale.name }}</a>
+{%- endfor -%}
+```
+
+#### targetedLocale
 Type: `string`
 
-The locale as a simple language code (e.g. `en`) or language code with country code suffix (e.g. `en-us`).
+The target locale as a simple language code (e.g. `en`) or language code with country code suffix (e.g. `en-us`).
 
+#### pagePath
+Type: `string`
+
+The page path whe
 
 ## Sources
 
