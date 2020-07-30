@@ -79,14 +79,11 @@ module.exports.enhance11tydata = (obj, locale, dir = "ltr") => {
     obj._n = (singular, plural, count, ...args) => {
         return this._n(locale, singular, plural, count, ...args)
     }
-    obj._p = (basePath) => {
-        return this._p(locale, basePath)
-    }
     obj._d = (format, date) => {
         return this._d(locale, format, date)
     }
-    obj.relocalizePath = (locale, pagePath) => {
-        return this.relocalizePath(locale, pagePath)
+    obj._p = (basePath) => {
+        return this._p(locale, basePath)
     }
 
     return obj
