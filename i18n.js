@@ -54,9 +54,9 @@ module.exports._p = (locale, basePath) => {
     return `/${locale}${basePath}`
 }
 
-module.exports.relocalizePath = (locale, pagePath) => {
+module.exports.relocalizePath = (targetedLocale, pagePath) => {
     const pathParts = pagePath.split('/').filter(pathPart => pathPart !== '')
-    pathParts[0] = locale
+    pathParts[0] = targetedLocale
 
     return `/${pathParts.join('/')}`
 }

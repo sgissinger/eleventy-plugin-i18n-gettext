@@ -15,8 +15,8 @@ module.exports = (eleventyConfig, options = {}) => {
         i18n.loadTranslations()
     })
 
-    eleventyConfig.addShortcode('relocalizePath', (locale, path) => {
-        const url = i18n.relocalizePath(locale, path)
+    eleventyConfig.addShortcode('relocalizePath', (targetedLocale, path) => {
+        const url = i18n.relocalizePath(targetedLocale, path)
 
         return eleventyConfig.getFilter('url')(url)
     })
