@@ -80,7 +80,7 @@ Locale folder casing must be exactly the same in `locales` and `src`. In this ex
 
 ### Create messages.po files
 
-The simpliest manner to create `messages.po` files, is to copy them from the [demo code source](https://github.com/sgissinger/eleventy-plugin-i18n-gettext-demo/tree/master/locales).
+The easiest way to create `messages.po` files, is to copy them from the [demo code source](https://github.com/sgissinger/eleventy-plugin-i18n-gettext-demo/tree/master/locales).
 
 - `messages.po` files store translations in plain text.
 - `messages.mo` files are compiled from `messages.po`. _Poedit handle the creation of these files automatically, pushing them into your code repository is recommended_.
@@ -89,7 +89,7 @@ The simpliest manner to create `messages.po` files, is to copy them from the [de
 
 In these files we enhance the Eleventy [directory data object](https://www.11ty.dev/docs/data-template-dir/) with [`i18n.enhance11tydata(obj, locale, dir?)`](#i18nenhance11tydataobj-locale-dir).
 
-```js
+```javascript
 // xx.11tydata.js
 const i18n = require('eleventy-plugin-i18n-gettext')
 
@@ -103,7 +103,7 @@ module.exports = () => {
 
 Open up your Eleventy config file (probably `.eleventy.js`), import the plugin and use `addPlugin`.
 
-```js
+```javascript
 // .eleventy.js
 const i18n = require('eleventy-plugin-i18n-gettext')
 
@@ -178,9 +178,6 @@ Attaches additional properties and methods to `obj` and returns it:
 
 `locale` property is meant to be used in custom filters and shortcodes.
 
-
-In the context of template, `locale` parameter is not needed because it's set by [`i18n.enhance11tydata(obj, locale, dir?)`](#i18nenhance11tydataobj-locale-dir) in [`xx.11tydata.js`](#create-xx11tydatajs-files) data directory files.
-
 #### obj
 Type: `object`
 
@@ -200,7 +197,7 @@ The locale direction, left-to-right or right-to-left.
 ### `i18n._(locale, key, ...args)`
 Returns: `string`
 
-Retrieve a gettext translated string then apply [`printf()`](https://www.npmjs.com/package/printf) on it.
+Retrieve a Gettext translated string then apply [`printf()`](https://www.npmjs.com/package/printf) on it.
 
 
 #### locale
@@ -211,7 +208,7 @@ The locale as a simple language code (e.g. `en`) or language code with country c
 #### key
 Type: `string`
 
-The Gettext translation key to translate.
+The translation key to translate.
 
 #### args
 Type: `string[]`
@@ -222,30 +219,83 @@ Arguments sent to [`printf()`](https://www.npmjs.com/package/printf).
 ### `i18n._n(locale, singular, plural, count, ...args)`
 Returns: `string`
 
-Retrieve a gettext translated string then apply [`printf()`](https://www.npmjs.com/package/printf) on it.
+Retrieve a Gettext singular or plural translated string then apply [`printf()`](https://www.npmjs.com/package/printf) on it.
 
 #### locale
 Type: `string`
 
 The locale as a simple language code (e.g. `en`) or language code with country code suffix (e.g. `en-us`).
+
+#### singular
+Type: `string`
+
+The singular form of the translation key to translate.
+
+#### plural
+Type: `string`
+
+The plural form of the translation key to translate.
+
+#### count
+Type: `int`
+
+The quantity which helps Gettext to determine whether to return the singular or the plural translated value.
+
+#### args
+Type: `string[]`
+
+Arguments sent to [`printf()`](https://www.npmjs.com/package/printf).
 
 
 ### `i18n._d(locale, format, date)`
 Returns: `string`
 
+Return the localized form of a date using [`moment.js`](https://momentjs.com/docs/#/displaying/format/) localized formats.
+
 #### locale
 Type: `string`
 
 The locale as a simple language code (e.g. `en`) or language code with country code suffix (e.g. `en-us`).
+
+#### format
+Type: `string`
+
+A [`moment.js`](https://momentjs.com/docs/#/displaying/format/) localized format
+
+| | | |
+|-|-|-
+| Time              | LT  | 8:30 PM
+| Time with seconds | LTS | 8:30:25 PM
+| Month numeral, day of month, year | L  | 09/04/1986
+|                                   | l  | 9/4/1986
+| Month name, day of month, year | LL | September 4, 1986
+|                                | ll | Sep 4, 1986
+| Month name, day of month, year, time | LLL | September 4, 1986 8:30 PM
+|                                      | lll | Sep 4, 1986 8:30 PM
+| Month name, day of month, day of week, year, time | LLLL | Thursday, September 4, 1986 8:30 PM
+|                                                   | llll | Thu, Sep 4, 1986 8:30 PM
+
+#### date
+Type: `string`
+
+Any type of string that `moment()` can use.
 
 
 ### `i18n._p(locale, basePath)`
 Returns: `string`
 
+Returns `basePath` prefixed with `locale`.
+The main intent of this method is to be used in the `permalink` parameter of templates.
+
 #### locale
 Type: `string`
 
 The locale as a simple language code (e.g. `en`) or language code with country code suffix (e.g. `en-us`).
+
+#### basePath
+Type: `string`
+
+Path which will be prefixed with the locale.
 
 ## API Usage
 
