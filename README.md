@@ -173,10 +173,15 @@ Attaches additional properties and methods to `obj` and returns it:
 | Method   | `_d(format, date)`
 | Method   | `_p(basePath)`
 
+`lang` and `langDir` properties are meant to be used in the `<html>` tag.
+
+`locale` property is meant to be used in custom shortcodes.
+
 ```html
 <!-- index.njk -->
 <html lang="{{ lang }}" dir="{{ langDir }}">
   <body>
+    <div>{%- custom_shortcode locale, fruit -%}</div>
     <div>{{ _('TranslateMe') }}</div>
     <div>{{ _n('TranslateMe', 'TranslateUs', translationCount) }}</div>
     <div>{{ _d('LL', page.date) }}</div>
@@ -202,13 +207,46 @@ Type: `string` | Default: `ltr` | AllowedValues: `ltr`, `rtl`
 
 The locale direction, left-to-right or right-to-left
 
+
 ### `i18n._(locale, key, ...args)`
 Returns: `string`
+
+Retrieve a gettext translated string then apply [`printf()`](https://www.npmjs.com/package/printf) with `args` parameters on it.
+
+```javascript
+// .eleventy.js
+const i18n = require('eleventy-plugin-i18n-gettext')
+
+module.exports = eleventyConfig => {
+  eleventyConfig.addShortcode("custom_shortcode", (locale, fruit) => {
+    return i18n._(locale, fruit.name)
+  })
+  ...
+}
+```
+
+In the context of a template, `locale` parameter is not needed because it's set by [`i18n.enhance11tydata(obj, locale, dir?)`](#i18nenhance11tydataobj-locale-dir) in [`xx.11tydata.js`](#create-xx11tydatajs-files) data directory files.
+
+```html
+<!-- index.njk -->
+<div>{{ _('TranslateMe') }}</div>
+<div>{{ _('TranslateMe and my friend %s', 'Bob') }}</div>
+```
 
 #### locale
 Type: `string`
 
 The locale as a simple language code (e.g. `en`) or language code with country code suffix (e.g. `en-us`).
+
+#### key
+Type: `string`
+
+The Gettext string to translate.
+
+#### args
+Type: `string[]`
+
+Arguments sent to [`printf()`](https://www.npmjs.com/package/printf).
 
 
 ### `i18n._n(locale, singular, plural, count, ...args)`
@@ -259,7 +297,7 @@ The intent of this shortcode is to construct language selectors. It replaces the
 ```html
 <!-- _includes/layout.njk -->
 {%- for locale in locales -%}
-    <a href="{%- relocalizePath locale.path, page.url -%}">{{ locale.name }}</a>
+  <a href="{%- relocalizePath locale.path, page.url -%}">{{ locale.name }}</a>
 {%- endfor -%}
 ```
 
