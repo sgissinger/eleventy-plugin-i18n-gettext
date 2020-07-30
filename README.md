@@ -3,7 +3,7 @@
 [Eleventy](https://www.11ty.dev/) plugin which adds i18n support with Gettext and moment.js.
 
 Gettext is of common use in Linux C and WordPress worlds. Gettext comes with some handy features:
-- It can extract translation keys from source code. _[Poedit configuration for translations extraction](docs/Manage-translations-with-Poedit)_.
+- It can extract translation keys from source code. _[Poedit configuration for translations extraction](docs/Manage-translations-with-Poedit.md)_.
 - It supports pluralization.
 - Translation keys are their own translation fallback value. It means that if you don't have a translation file or didn't translate some keys, the value of the key itself is used.
 - PO files editors exists, like [Poedit](https://poedit.net).
@@ -178,7 +178,7 @@ Attaches additional properties and methods to `obj` and returns it:
 <html lang="{{ lang }}" dir="{{ langDir }}">
   <body>
     <div>{{ _('TranslateMe') }}</div>
-    <div>{{ _n('TranslateMe', 'TranslateUs', tranlationCount) }}</div>
+    <div>{{ _n('TranslateMe', 'TranslateUs', translationCount) }}</div>
     <div>{{ _d('LL', page.date) }}</div>
     <div>{{ _p('/') | url }}</div>
   </body>
@@ -271,7 +271,7 @@ The target locale as a simple language code (e.g. `en`) or language code with co
 #### pagePath
 Type: `string`
 
-The page path whe
+The path of the page we want to replace the current locale part.
 
 ## Sources
 
