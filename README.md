@@ -182,8 +182,9 @@ Attaches additional properties and methods to `obj` and returns it:
 <html lang="{{ lang }}" dir="{{ langDir }}">
   <body>
     <div>{%- custom_shortcode locale, fruit -%}</div>
-    <div>{{ _('TranslateMe') }}</div>
-    <div>{{ _n('TranslateMe', 'TranslateUs', translationCount) }}</div>
+    <div>{{ _('I like Gettext translation') }}</div>
+    <div>{{ _('My friend %s and I like Gettext translation as much as %s', 'Bob', 'John') }}</div>
+    <div>{{ _n('I like Gettext translation', 'They like Gettext translation', peopleCount) }}</div>
     <div>{{ _d('LL', page.date) }}</div>
     <div>{{ _p('/') | url }}</div>
   </body>
@@ -195,8 +196,6 @@ Type: `object`
 
 Contains the custom data you want to use in your templates.
 
-[Demo code source](https://github.com/sgissinger/eleventy-plugin-i18n-gettext-demo/blob/master/src/fr-fr/fr-fr.11tydata.js) has an example which uses a custom data object.
-
 #### locale
 Type: `string`
 
@@ -205,7 +204,7 @@ The locale as a simple language code (e.g. `en`) or language code with country c
 #### dir
 Type: `string` | Default: `ltr` | AllowedValues: `ltr`, `rtl`
 
-The locale direction, left-to-right or right-to-left
+The locale direction, left-to-right or right-to-left.
 
 
 ### `i18n._(locale, key, ...args)`
@@ -229,8 +228,8 @@ In the context of a template, `locale` parameter is not needed because it's set 
 
 ```html
 <!-- index.njk -->
-<div>{{ _('TranslateMe') }}</div>
-<div>{{ _('TranslateMe and my friend %s', 'Bob') }}</div>
+<div>{{ _('I like Gettext translation') }}</div>
+<div>{{ _('My friend %s and I like Gettext translation as much as %s', 'Bob', 'John') }}</div>
 ```
 
 #### locale
