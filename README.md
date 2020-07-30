@@ -15,6 +15,11 @@
   - [`tokenFilePatterns`](#tokenFilePatterns)
 - [API](#api)
   - [`i18n.enhance11tydata(obj, locale, dir?)`](#i18nenhance11tydataobj-locale-dir)
+  - [`i18n._(locale, key, ...args)`](#i18n_locale-key-args)
+  - [`i18n._n(locale, singular, plural, count, ...args)`](#i18n_nlocale-singular-plural-count-args)
+  - [`i18n._d(locale, format, date)`](#i18n_dlocale-format-date)
+  - [`i18n._p(locale, basePath)`](#i18n_plocale-basePath)
+  - [`i18n.relocalizePath(locale, pagePath)`](#i18nrelocalizePathlocale-pagePath)
 - [Sources](#sources)
 - [Credits](#credits)
 
@@ -137,6 +142,7 @@ Glob patterns used to know which code source files to search for translation key
 
 It's relative to the Node process current working directory, usually the directory where is located `package.json` and from where `npm run` commands are executed.
 
+
 ## API
 
 ### `i18n.enhance11tydata(obj, locale, dir?)`
@@ -154,8 +160,55 @@ Type: `any`
 #### locale
 Type: `string`
 
+The locale as a simple language code (e.g. `en`) or language code with country code suffix (e.g. `en-us`).
+
 #### dir
 Type: `string` | Default: `ltr` | AllowedValues: `ltr`, `rtl`
+
+
+### `i18n._(locale, key, ...args)`
+Returns: `string`
+
+#### locale
+Type: `string`
+
+The locale as a simple language code (e.g. `en`) or language code with country code suffix (e.g. `en-us`).
+
+
+### `i18n._n(locale, singular, plural, count, ...args)`
+Returns: `string`
+
+#### locale
+Type: `string`
+
+The locale as a simple language code (e.g. `en`) or language code with country code suffix (e.g. `en-us`).
+
+
+### `i18n._d(locale, format, date)`
+Returns: `string`
+
+#### locale
+Type: `string`
+
+The locale as a simple language code (e.g. `en`) or language code with country code suffix (e.g. `en-us`).
+
+
+### `i18n._p(locale, basePath)`
+Returns: `string`
+
+#### locale
+Type: `string`
+
+The locale as a simple language code (e.g. `en`) or language code with country code suffix (e.g. `en-us`).
+
+
+### `i18n.relocalizePath(locale, pagePath)`
+Returns: `string`
+
+#### locale
+Type: `string`
+
+The locale as a simple language code (e.g. `en`) or language code with country code suffix (e.g. `en-us`).
 
 
 ## Sources
