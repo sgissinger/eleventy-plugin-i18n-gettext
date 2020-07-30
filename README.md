@@ -1,18 +1,16 @@
 # eleventy-plugin-i18n-gettext
 
-[Eleventy](https://www.11ty.dev/) plugin which adds i18n support with Gettext and moment.js.
+[Eleventy](https://www.11ty.dev/) plugin which adds i18n support with Gettext string translation and moment.js date and times localization.
 
-Gettext is of common use in Linux C and WordPress worlds. Gettext comes with some handy features:
-- It can extract translation keys from source code. _[Poedit configuration for translations extraction](docs/Manage-translations-with-Poedit.md)_.
-- It supports pluralization.
-- Translation keys are their own translation fallback value. It means that if you don't have a translation file or didn't translate some keys, the value of the key itself is used.
+Gettext is commonly used in Linux C and WordPress worlds. It comes with a few handy features:
+- Can extract translation keys from source code. _[Poedit configuration for translations extraction](docs/Manage-translations-with-Poedit.md)_.
+- Supports pluralization.
+- Translation keys are their own translation fallback value. It means that if you don't have a translation file or didn't translate some keys, the value of the key itself is used as the translated value.
 - PO files editors exists, like [Poedit](https://poedit.net).
 
 In addition to Gettext features, this plugin:
-- Use printf in order to format strings with values insertion in part of a translation key
-- Use moment.js to ease dates localization
-
-:warning: Currently, this plugin does not leverage Elevety filters as it's not the common way to do Gettext internationalization and because this kind of is harder to parse with simple Regexes than a standard function signature. It may change in the future.
+- Integrates [`printf()`](https://www.npmjs.com/package/printf) for enhanced string formatting capabilities
+- Integrates [`moment.js`](https://momentjs.com) for date and time localization
 
 
 ## Table of content
@@ -89,7 +87,7 @@ The simpliest manner to create `messages.po` files, is to copy them from the [de
 
 ### Create xx.11tydata.js files
 
-In these files we will enhance the [directory data object](https://www.11ty.dev/docs/data-template-dir/) passed to Eleventy templates thanks to [`i18n.enhance11tydata(obj, locale, dir?)`](#i18nenhance11tydataobj-locale-dir).
+In these files we enhance the Eleventy [directory data object](https://www.11ty.dev/docs/data-template-dir/) with [`i18n.enhance11tydata(obj, locale, dir?)`](#i18nenhance11tydataobj-locale-dir).
 
 ```js
 // xx.11tydata.js
@@ -110,15 +108,15 @@ Open up your Eleventy config file (probably `.eleventy.js`), import the plugin a
 const i18n = require('eleventy-plugin-i18n-gettext')
 
 module.exports = function (eleventyConfig) {
-    eleventyConfig.addPlugin(i18n, {
-        localesDirectory: 'locales',
-        parserMode: 'po',
-        javascriptMessages: 'messages.js',
-        tokenFilePatterns: [
-            'src/**/*.njk',
-            'src/**/*.js'
-        ]
-    })
+  eleventyConfig.addPlugin(i18n, {
+    localesDirectory: 'locales',
+    parserMode: 'po',
+    javascriptMessages: 'messages.js',
+    tokenFilePatterns: [
+      'src/**/*.njk',
+      'src/**/*.js'
+    ]
+  })
 }
 ```
 
@@ -149,7 +147,7 @@ By default, `gettext-parser` is configured to parse `messages.po` text files. Fo
 ### `javascriptMessages`
 Type: `string` | Default: `messages.js`
 
-Name of the file where this plugin will store translation keys found in code source files.
+Name of the file where this plugin stores translation keys found in code source files.
 
 ### `tokenFilePatterns`
 Type: `string[]` | Default: `['src/**/*.njk', 'src/**/*.js']`
@@ -178,7 +176,10 @@ Attaches additional properties and methods to `obj` and returns it:
 
 `lang` and `langDir` properties are meant to be used in the `<html>` tag.
 
-`locale` property is meant to be used in custom shortcodes.
+`locale` property is meant to be used in custom filters and shortcodes.
+
+
+In the context of template, `locale` parameter is not needed because it's set by [`i18n.enhance11tydata(obj, locale, dir?)`](#i18nenhance11tydataobj-locale-dir) in [`xx.11tydata.js`](#create-xx11tydatajs-files) data directory files.
 
 #### obj
 Type: `object`
@@ -199,9 +200,8 @@ The locale direction, left-to-right or right-to-left.
 ### `i18n._(locale, key, ...args)`
 Returns: `string`
 
-Retrieve a gettext translated string then apply [`printf()`](https://www.npmjs.com/package/printf) with `args` parameters on it.
+Retrieve a gettext translated string then apply [`printf()`](https://www.npmjs.com/package/printf) on it.
 
-In the context of a template, `locale` parameter is not needed because it's set by [`i18n.enhance11tydata(obj, locale, dir?)`](#i18nenhance11tydataobj-locale-dir) in [`xx.11tydata.js`](#create-xx11tydatajs-files) data directory files.
 
 #### locale
 Type: `string`
@@ -211,7 +211,7 @@ The locale as a simple language code (e.g. `en`) or language code with country c
 #### key
 Type: `string`
 
-The Gettext string to translate.
+The Gettext translation key to translate.
 
 #### args
 Type: `string[]`
@@ -221,6 +221,8 @@ Arguments sent to [`printf()`](https://www.npmjs.com/package/printf).
 
 ### `i18n._n(locale, singular, plural, count, ...args)`
 Returns: `string`
+
+Retrieve a gettext translated string then apply [`printf()`](https://www.npmjs.com/package/printf) on it.
 
 #### locale
 Type: `string`
@@ -249,11 +251,12 @@ The locale as a simple language code (e.g. `en`) or language code with country c
 
 ### In templates
 
+In templates context, `locale` parameter is not needed because it's set by [`i18n.enhance11tydata(obj, locale, dir?)`](#i18nenhance11tydataobj-locale-dir) in [`xx.11tydata.js`](#create-xx11tydatajs-files) data directory files.
+
 ```html
 <!-- index.njk -->
 <html lang="{{ lang }}" dir="{{ langDir }}">
   <body>
-    <div>{%- custom_shortcode locale, fruit -%}</div>
     <div>{{ _('I like Gettext') }}</div>
     <div>{{ _('%s and I like Gettext as much as %s', 'Bob', 'John') }}</div>
     <div>{{ _n('I like Gettext', 'They like Gettext', peopleCount) }}</div>
@@ -266,6 +269,8 @@ The locale as a simple language code (e.g. `en`) or language code with country c
 
 ### In filters, shortcodes
 
+In filters and shortcodes context, `locale` parameter has to be passed as a parameter.
+
 ```javascript
 // .eleventy.js
 const i18n = require('eleventy-plugin-i18n-gettext')
@@ -276,6 +281,13 @@ module.exports = eleventyConfig => {
   })
   ...
 }
+```
+
+When [`i18n.enhance11tydata(obj, locale, dir?)`](#i18nenhance11tydataobj-locale-dir) is used in [`xx.11tydata.js`](#create-xx11tydatajs-files) data directory files, it adds a property named `locale` which can be used in templates and passed to filters and shortcodes.
+
+```html
+<!-- index.njk -->
+<div>{%- custom_shortcode locale, fruit -%}</div>
 ```
 
 ## Shortcode
@@ -311,7 +323,7 @@ The target locale as a simple language code (e.g. `en`) or language code with co
 #### pagePath
 Type: `string`
 
-The path of the page we want to replace the current locale part.
+The path on which the current locale will be replaced with `targetedLocale`.
 
 
 ## Sources
