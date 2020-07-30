@@ -33,6 +33,9 @@ In addition to Gettext features, this plugin:
   - [`i18n._n(locale, singular, plural, count, ...args)`](#i18n_nlocale-singular-plural-count-args)
   - [`i18n._d(locale, format, date)`](#i18n_dlocale-format-date)
   - [`i18n._p(locale, basePath)`](#i18n_plocale-basePath)
+- [API Usage](#api-usage)
+  - [In templates](#in-templates)
+  - [In filters, shortcodes](#in-filters-shortcodes)
 - [Shortcode](#shortcode)
   - [`relocalizePath targetedLocale, pagePath`](#relocalizePath-targetedLocale-pagePath)
 - [Sources](#sources)
@@ -177,20 +180,6 @@ Attaches additional properties and methods to `obj` and returns it:
 
 `locale` property is meant to be used in custom shortcodes.
 
-```html
-<!-- index.njk -->
-<html lang="{{ lang }}" dir="{{ langDir }}">
-  <body>
-    <div>{%- custom_shortcode locale, fruit -%}</div>
-    <div>{{ _('I like Gettext translation') }}</div>
-    <div>{{ _('My friend %s and I like Gettext translation as much as %s', 'Bob', 'John') }}</div>
-    <div>{{ _n('I like Gettext translation', 'They like Gettext translation', peopleCount) }}</div>
-    <div>{{ _d('LL', page.date) }}</div>
-    <div>{{ _p('/') | url }}</div>
-  </body>
-</html>
-```
-
 #### obj
 Type: `object`
 
@@ -212,25 +201,7 @@ Returns: `string`
 
 Retrieve a gettext translated string then apply [`printf()`](https://www.npmjs.com/package/printf) with `args` parameters on it.
 
-```javascript
-// .eleventy.js
-const i18n = require('eleventy-plugin-i18n-gettext')
-
-module.exports = eleventyConfig => {
-  eleventyConfig.addShortcode("custom_shortcode", (locale, fruit) => {
-    return i18n._(locale, fruit.name)
-  })
-  ...
-}
-```
-
 In the context of a template, `locale` parameter is not needed because it's set by [`i18n.enhance11tydata(obj, locale, dir?)`](#i18nenhance11tydataobj-locale-dir) in [`xx.11tydata.js`](#create-xx11tydatajs-files) data directory files.
-
-```html
-<!-- index.njk -->
-<div>{{ _('I like Gettext translation') }}</div>
-<div>{{ _('My friend %s and I like Gettext translation as much as %s', 'Bob', 'John') }}</div>
-```
 
 #### locale
 Type: `string`
@@ -274,6 +245,38 @@ Type: `string`
 
 The locale as a simple language code (e.g. `en`) or language code with country code suffix (e.g. `en-us`).
 
+## API Usage
+
+### In templates
+
+```html
+<!-- index.njk -->
+<html lang="{{ lang }}" dir="{{ langDir }}">
+  <body>
+    <div>{%- custom_shortcode locale, fruit -%}</div>
+    <div>{{ _('I like Gettext') }}</div>
+    <div>{{ _('%s and I like Gettext as much as %s', 'Bob', 'John') }}</div>
+    <div>{{ _n('I like Gettext', 'They like Gettext', peopleCount) }}</div>
+    <div>{{ _n('I like Gettext as much as %s', 'They like Gettext as much as %s', peopleCount, 'John') }}</div>
+    <div>{{ _d('LL', page.date) }}</div>
+    <div>{{ _p('/') | url }}</div>
+  </body>
+</html>
+```
+
+### In filters, shortcodes
+
+```javascript
+// .eleventy.js
+const i18n = require('eleventy-plugin-i18n-gettext')
+
+module.exports = eleventyConfig => {
+  eleventyConfig.addShortcode("custom_shortcode", (locale, fruit) => {
+    return i18n._(locale, fruit.name)
+  })
+  ...
+}
+```
 
 ## Shortcode
 
@@ -310,12 +313,14 @@ Type: `string`
 
 The path of the page we want to replace the current locale part.
 
+
 ## Sources
 
 - [The Format of PO Files](https://www.gnu.org/software/gettext/manual/html_node/PO-Files.html)
 - [Language-COUNTRY codes](http://www.lingoes.net/en/translator/langcode.htm)
 - [ISO 639-1 Language codes](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)
 - [ISO 3166-1 Country codes](https://en.wikipedia.org/wiki/ISO_3166-1)
+
 
 ## Credits
 
