@@ -23,7 +23,7 @@ module.exports.configuration = undefined
 module.exports.gettext = undefined
 module.exports.pathPrefix = undefined
 
-module.exports.init = (options) => {
+module.exports.init = options => {
     this.configuration = Object.assign(this.defaultConfiguration, options)
 
     if( !['po', 'mo'].includes(this.configuration.parserMode) ) {
@@ -31,13 +31,51 @@ module.exports.init = (options) => {
     }
 }
 
-module.exports._ = (locale, key, ...args) => {
-    this.loadTranslations()
+module.exports.normalizePath = path => {
+    if( this.pathPrefix === undefined ) {
+        // Works when pathPrefix is configured in .eleventy.js file
+        // Does not work when pathPrefix is given with commandline `--pathprefix=eleventy-base-blog`
+        const projectConfig = require('@11ty/eleventy/src/Config').getConfig();
+        this.pathPrefix = projectConfig.pathPrefix
+    }
 
+    if( this.pathPrefix !== '/') {
+        return path.replace(this.pathPrefix, '')
+    }
+    return path
+}
+
+module.exports.getStandardLocale = locale => {
+    const match = locale.match(this.configuration.localeRegex)
+
+    if( match.groups.country ) {
+        return `${match.groups.lang}-${match.groups.country}`
+    }
+
+    return match.groups.lang
+}
+
+module.exports.setLocale = locale => {
     const standardLocale = this.getStandardLocale(locale)
     this.gettext.setLocale(standardLocale)
+}
 
-    const translation = this.gettext.gettext(key)
+module.exports.translate = (locale, key) => {
+    this.loadTranslations()
+    this.setLocale(locale)
+
+    return this.gettext.gettext(key)
+}
+
+module.exports.ntranslate = (locale, singular, plural, count) => {
+    this.loadTranslations()
+    this.setLocale(locale)
+
+    return this.gettext.ngettext(singular, plural, count)
+}
+
+module.exports._ = (locale, key, ...args) => {
+    const translation = this.translate(locale, key)
 
     if( args.length ) {
         return printf(translation, ...args)
@@ -46,12 +84,7 @@ module.exports._ = (locale, key, ...args) => {
 }
 
 module.exports._i = (locale, key, obj) => {
-    this.loadTranslations()
-
-    const standardLocale = this.getStandardLocale(locale)
-    this.gettext.setLocale(standardLocale)
-
-    const translation = this.gettext.gettext(key)
+    const translation = this.translate(locale, key)
 
     if( obj ) {
         return dynamic_interpolation(translation, obj)
@@ -60,12 +93,7 @@ module.exports._i = (locale, key, obj) => {
 }
 
 module.exports._n = (locale, singular, plural, count, ...args) => {
-    this.loadTranslations()
-
-    const standardLocale = this.getStandardLocale(locale)
-    this.gettext.setLocale(standardLocale)
-
-    const translation = this.gettext.ngettext(singular, plural, count)
+    const translation = this.ntranslate(locale, singular, plural, count)
 
     if( args.length ) {
         return printf(translation, ...args)
@@ -74,12 +102,7 @@ module.exports._n = (locale, singular, plural, count, ...args) => {
 }
 
 module.exports._ni = (locale, singular, plural, count, obj) => {
-    this.loadTranslations()
-
-    const standardLocale = this.getStandardLocale(locale)
-    this.gettext.setLocale(standardLocale)
-
-    const translation = this.gettext.ngettext(singular, plural, count)
+    const translation = this.ntranslate(locale, singular, plural, count)
 
     if( obj ) {
         return dynamic_interpolation(translation, obj)
@@ -221,28 +244,4 @@ module.exports.generateMessageFile = () => {
 
     console.log(`Writing ${messagesPath}.`)
     fs.writeFileSync(messagesPath, matches.join("\r\n"))
-}
-
-module.exports.getStandardLocale = locale => {
-    const match = locale.match(this.configuration.localeRegex)
-
-    if( match.groups.country ) {
-        return `${match.groups.lang}-${match.groups.country}`
-    }
-
-    return match.groups.lang
-}
-
-module.exports.normalizePath = path => {
-    if( this.pathPrefix === undefined ) {
-        // Works when pathPrefix is configured in .eleventy.js file
-        // Does not work when pathPrefix is given with commandline `--pathprefix=eleventy-base-blog`
-        const projectConfig = require('@11ty/eleventy/src/Config').getConfig();
-        this.pathPrefix = projectConfig.pathPrefix
-    }
-
-    if( this.pathPrefix !== '/') {
-        return path.replace(this.pathPrefix, '')
-    }
-    return path
 }
