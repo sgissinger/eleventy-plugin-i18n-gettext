@@ -53,9 +53,10 @@ module.exports._i = (locale, key, obj) => {
 
     const translation = this.gettext.gettext(key)
 
-    const tpl = dynamic_interpolation(translation, obj)
-
-    return tpl
+    if( obj ) {
+        return dynamic_interpolation(translation, obj)
+    }
+    return translation
 }
 
 module.exports._n = (locale, singular, plural, count, ...args) => {
@@ -80,9 +81,10 @@ module.exports._ni = (locale, singular, plural, count, obj) => {
 
     const translation = this.gettext.ngettext(singular, plural, count)
 
-    const tpl = dynamic_interpolation(translation, obj)
-
-    return tpl
+    if( obj ) {
+        return dynamic_interpolation(translation, obj)
+    }
+    return translation
 }
 
 module.exports._d = (locale, format, date) => {

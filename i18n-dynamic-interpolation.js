@@ -7,7 +7,5 @@ module.exports = (translation, obj) => {
         eval(`var ${prop} = "${obj[prop]}"`)
     }
 
-    const tpl = eval(`\`${translation}\``)
-
-    return tpl
+    return eval(`\`${translation}\``)
 }
