@@ -35,12 +35,14 @@ In addition to Gettext features, this plugin:
   - [`i18n._d(locale, format, date)`](#i18n_dlocale-format-date)
   - [`i18n._p(locale, basePath)`](#i18n_plocale-basePath)
 - [API Usage](#api-usage)
-  - [In templates](#in-templates)
-  - [In filters, shortcodes](#in-filters-shortcodes)
+  - [With functions in templates](#with-functions-in-templates)
+  - [With shortcodes in templates](#with-shortcodes-in-templates)
+  - [In filters and shortcodes](#in-filters-and-shortcodes)
 - [Shortcode](#shortcode)
   - [`relocalizePath targetedLocale, pagePath`](#relocalizepath-targetedLocale-pagepath)
 - [Sources](#sources)
 - [Credits](#credits)
+
 
 ## Install
 
