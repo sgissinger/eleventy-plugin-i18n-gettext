@@ -163,9 +163,11 @@ Type: `Regex` | Default: `/^(?<lang>.{2})(?:-(?<country>.{2}))*$/`
 
 This Regex is used to identify which part of locale directories are the language and the country.
 
-The default value identifies standard locales values, country part can be omitted but not the language part: `nl-be`, `nl`, `fr-be`, `fr`, ...
+The default value identifies standard locales values: `nl-be`, `nl`, `fr-be`, `fr`, ...
 
-For example, with this Regex `/^(?:(?<country>.{2}))*(?<lang>.{2})$/`, you can use the same locales pattern as used by [Apple](https://www.apple.com/choose-country-region/): `benl`, `nl`, `befr`, `fr`, ...
+For example, `/^(?:(?<country>.{2}))*(?<lang>.{2})$/` use the same locales pattern as used by [Apple](https://www.apple.com/choose-country-region/): `benl`, `nl`, `befr`, `fr`, ...
+
+📌 In both Regex, country part can be omitted but not the language part.
 
 ## API
 
