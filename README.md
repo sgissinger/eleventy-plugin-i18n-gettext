@@ -357,7 +357,9 @@ When [`i18n.enhance11tydata(obj, locale, dir?)`](#i18nenhance11tydataobj-locale-
 ### `relocalizePath targetedLocale, pagePath`
 Returns: `string`
 
-The intent of this shortcode is to construct language selectors. It replaces the locale part of the current url with the targeted locale.
+The intent of this shortcode is to construct language selectors.
+
+It replaces the locale part of the current url with the targeted locale then it applies the `url` built-in filter.
 
 ```json
 // _data/locales.json
@@ -387,6 +389,11 @@ Type: `string`
 
 The path on which the current locale will be replaced with `targetedLocale`.
 
+#### ⚠️ Path prefix bug
+
+This method is able to handle `pathPrefix` when set in `.eleventy.js` configuration file.
+
+But when `pathPrefix` is set by the commandline `eleventy --pathprefix=eleventy-base-blog`, its value in the Config object is '/' instead of '/eleventy-base-blog/'.
 
 ## Sources
 

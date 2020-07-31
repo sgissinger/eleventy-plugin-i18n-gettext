@@ -20,6 +20,7 @@ module.exports.defaultConfiguration = {
 }
 module.exports.configuration = undefined
 module.exports.gettext = undefined
+module.exports.pathPrefix = undefined
 
 module.exports.init = (options) => {
     this.configuration = Object.assign(this.defaultConfiguration, options)
@@ -65,11 +66,15 @@ module.exports._d = (locale, format, date) => {
 }
 
 module.exports._p = (locale, basePath) => {
-    return `/${locale}${basePath}`
+    const path = this.normalizePath(basePath)
+
+    return `/${locale}${path}`
 }
 
 module.exports.relocalizePath = (targetedLocale, pagePath) => {
-    const pathParts = pagePath.split('/').filter(pathPart => pathPart !== '')
+    const path = this.normalizePath(pagePath)
+
+    const pathParts = path.split('/').filter(pathPart => pathPart !== '')
     pathParts[0] = targetedLocale
 
     return `/${pathParts.join('/')}`
@@ -183,7 +188,7 @@ module.exports.generateMessageFile = () => {
     fs.writeFileSync(messagesPath, matches.join("\r\n"))
 }
 
-module.exports.getStandardLocale = (locale) => {
+module.exports.getStandardLocale = locale => {
     const match = locale.match(this.configuration.localeRegex)
 
     if( match.groups.country ) {
@@ -191,4 +196,18 @@ module.exports.getStandardLocale = (locale) => {
     }
 
     return match.groups.lang
+}
+
+module.exports.normalizePath = path => {
+    if( this.pathPrefix === undefined ) {
+        // Works when pathPrefix is configured in .eleventy.js file
+        // Does not work when pathPrefix is given with commandline `--pathprefix=eleventy-base-blog`
+        const projectConfig = require('@11ty/eleventy/src/Config').getConfig();
+        this.pathPrefix = projectConfig.pathPrefix
+    }
+
+    if( this.pathPrefix !== '/') {
+        return path.replace(this.pathPrefix, '')
+    }
+    return path
 }
