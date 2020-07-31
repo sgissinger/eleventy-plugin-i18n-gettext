@@ -249,7 +249,7 @@ The translation key to translate.
 #### obj
 Type: `obj`
 
-A simple object which properties will be used as variables from [`template literals/string interpolation`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals).
+A simple object which properties will be used as variables for [`template literals/string interpolation`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals).
 
 
 ### `i18n._n(locale, singular, plural, count, ...args)`
@@ -311,7 +311,7 @@ The quantity which helps Gettext to determine whether to return the singular or 
 #### obj
 Type: `obj`
 
-A simple object which properties will be used as variables from [`template literals/string interpolation`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals).
+A simple object which properties will be used as variables for [`template literals/string interpolation`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals).
 
 
 ### `i18n._d(locale, format, date)`
