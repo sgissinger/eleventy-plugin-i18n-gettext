@@ -29,7 +29,9 @@ In addition to Gettext features, this plugin:
 - [API](#api)
   - [`i18n.enhance11tydata(obj, locale, dir?)`](#i18nenhance11tydataobj-locale-dir)
   - [`i18n._(locale, key, ...args)`](#i18n_locale-key-args)
+  - [`i18n._i(locale, key, obj)`](#i18n_ilocale-key-obj)
   - [`i18n._n(locale, singular, plural, count, ...args)`](#i18n_nlocale-singular-plural-count-args)
+  - [`i18n._ni(locale, singular, plural, count, obj)`](#i18n_nilocale-singular-plural-count-obj)
   - [`i18n._d(locale, format, date)`](#i18n_dlocale-format-date)
   - [`i18n._p(locale, basePath)`](#i18n_plocale-basePath)
 - [API Usage](#api-usage)
@@ -211,7 +213,6 @@ Returns: `string`
 
 Retrieve a Gettext translated string then apply [`printf()`](https://www.npmjs.com/package/printf) on it.
 
-
 #### locale
 Type: `string`
 
@@ -226,6 +227,27 @@ The translation key to translate.
 Type: `string[]`
 
 Arguments sent to [`printf()`](https://www.npmjs.com/package/printf).
+
+
+### `i18n._i(locale, key, obj)`
+Returns: `string`
+
+Retrieve a Gettext translated string then apply [`template literals/string interpolation`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals) on it.
+
+#### locale
+Type: `string`
+
+The locale as a simple language code (e.g. `en`) or language code with country code suffix (e.g. `en-us`).
+
+#### key
+Type: `string`
+
+The translation key to translate.
+
+#### obj
+Type: `obj`
+
+A simple object which properties will be used as variables from [`template literals/string interpolation`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals).
 
 
 ### `i18n._n(locale, singular, plural, count, ...args)`
@@ -257,6 +279,37 @@ The quantity which helps Gettext to determine whether to return the singular or 
 Type: `string[]`
 
 Arguments sent to [`printf()`](https://www.npmjs.com/package/printf).
+
+
+### `i18n._ni(locale, singular, plural, count, obj)`
+Returns: `string`
+
+Retrieve a Gettext singular or plural translated string then apply [`template literals/string interpolation`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals) on it.
+
+#### locale
+Type: `string`
+
+The locale as a simple language code (e.g. `en`) or language code with country code suffix (e.g. `en-us`).
+
+#### singular
+Type: `string`
+
+The singular form of the translation key to translate.
+
+#### plural
+Type: `string`
+
+The plural form of the translation key to translate.
+
+#### count
+Type: `int`
+
+The quantity which helps Gettext to determine whether to return the singular or the plural translated value.
+
+#### obj
+Type: `obj`
+
+A simple object which properties will be used as variables from [`template literals/string interpolation`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals).
 
 
 ### `i18n._d(locale, format, date)`
@@ -311,9 +364,11 @@ Path which will be prefixed with the locale.
 
 ## API Usage
 
-### In templates
+### With functions in templates
 
-In templates context, `locale` parameter is not needed because it's set by [`i18n.enhance11tydata(obj, locale, dir?)`](#i18nenhance11tydataobj-locale-dir) in [`xx.11tydata.js`](#create-xx11tydatajs-files) data directory files.
+In this context, `locale` parameter is useless.
+
+It's set by [`i18n.enhance11tydata(obj, locale, dir?)`](#i18nenhance11tydataobj-locale-dir) in [`xx.11tydata.js`](#create-xx11tydatajs-files) data directory files.
 
 ```html
 <!-- index.njk -->
@@ -321,17 +376,44 @@ In templates context, `locale` parameter is not needed because it's set by [`i18
   <body>
     <div>{{ _('I like Gettext') }}</div>
     <div>{{ _('%s and I like Gettext as much as %s', 'Bob', 'John') }}</div>
+    <div>{{ _i('${friend} and I like Gettext as much as ${chief}', { friend: 'Bob', chief: 'John' }) }}</div>
+
     <div>{{ _n('I like Gettext', 'They like Gettext', peopleCount) }}</div>
     <div>{{ _n('I like Gettext as much as %s', 'They like Gettext as much as %s', peopleCount, 'John') }}</div>
+    <div>{{ _ni('I like Gettext as much as ${chief}', 'They like Gettext as much as ${chief}', peopleCount, { chief: 'John' }) }}</div>
+
     <div>{{ _d('LL', page.date) }}</div>
     <div>{{ _p('/') | url }}</div>
   </body>
 </html>
 ```
 
-### In filters, shortcodes
+### With shortcodes in templates
 
-In filters and shortcodes context, `locale` parameter has to be passed as a parameter.
+In this context, `locale` parameter is mandatory.
+
+```html
+<!-- index.njk -->
+<html lang="{{ lang }}" dir="{{ langDir }}">
+  <body>
+    <div>{% _   locale, 'I like Gettext' %}</div>
+    <div>{% _   locale, '%s and I like Gettext as much as %s', 'Bob', 'John' %}</div>
+    <div>{% _i  locale, '${friend} and I like Gettext as much as ${chief}', { friend: 'Bob', chief: 'John' } %}</div>
+
+    <div>{% _n  locale, 'I like Gettext', 'They like Gettext', peopleCount %}</div>
+    <div>{% _n  locale, 'I like Gettext as much as %s', 'They like Gettext as much as %s', peopleCount, 'John' %}</div>
+    <div>{% _ni locale, 'I like Gettext as much as ${chief}', 'They like Gettext as much as ${chief}', peopleCount, { chief: 'John' } %}</div>
+
+    <div>{% _d  locale, 'LL', page.date %}</div>
+    <!-- `_p` shortcode applies the `url` built-in filter by itself -->
+    <div>{% _p  locale, '/' %}</div>
+  </body>
+</html>
+```
+
+### In filters and shortcodes
+
+In this context, `locale` parameter is mandatory.
 
 ```javascript
 // .eleventy.js

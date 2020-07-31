@@ -7,6 +7,7 @@ const Gettext = require('node-gettext')
 const parser = require('gettext-parser')
 const printf = require('printf')
 const moment = require('moment')
+const dynamic_interpolation = require('./i18n-dynamic-interpolation')
 
 module.exports.defaultConfiguration = {
     localesDirectory: 'locales',
@@ -44,6 +45,19 @@ module.exports._ = (locale, key, ...args) => {
     return translation
 }
 
+module.exports._i = (locale, key, obj) => {
+    this.loadTranslations()
+
+    const standardLocale = this.getStandardLocale(locale)
+    this.gettext.setLocale(standardLocale)
+
+    const translation = this.gettext.gettext(key)
+
+    const tpl = dynamic_interpolation(translation, obj)
+
+    return tpl
+}
+
 module.exports._n = (locale, singular, plural, count, ...args) => {
     this.loadTranslations()
 
@@ -56,6 +70,19 @@ module.exports._n = (locale, singular, plural, count, ...args) => {
         return printf(translation, ...args)
     }
     return translation
+}
+
+module.exports._ni = (locale, singular, plural, count, obj) => {
+    this.loadTranslations()
+
+    const standardLocale = this.getStandardLocale(locale)
+    this.gettext.setLocale(standardLocale)
+
+    const translation = this.gettext.ngettext(singular, plural, count)
+
+    const tpl = dynamic_interpolation(translation, obj)
+
+    return tpl
 }
 
 module.exports._d = (locale, format, date) => {
@@ -97,8 +124,14 @@ module.exports.enhance11tydata = (obj, locale, dir = "ltr") => {
     obj._ = (key, ...args) => {
         return this._(locale, key, ...args)
     }
+    obj._i = (key, obj) => {
+        return this._i(locale, key, obj)
+    }
     obj._n = (singular, plural, count, ...args) => {
         return this._n(locale, singular, plural, count, ...args)
+    }
+    obj._ni = (singular, plural, count, obj) => {
+        return this._ni(locale, singular, plural, count, obj)
     }
     obj._d = (format, date) => {
         return this._d(locale, format, date)
@@ -152,8 +185,8 @@ module.exports.generateMessageFile = () => {
     }).flat(1)
 
     // These regex can find multiples occurences on the same line due to ? lazy quantifier
-    const singular = /_\('.+?'/g         // _('singular'
-    const plural = /_n\('.+?',.*?'.+?'/g // _n('singular', 'plural'
+    const singular = /_(?:i)*\('.+?'/g         // _('singular' ; _i('singular'
+    const plural = /_n(?:i)*\('.+?',.*?'.+?'/g // _n('singular', 'plural' ; _ni('singular', 'plural'
 
     let matches = []
 
