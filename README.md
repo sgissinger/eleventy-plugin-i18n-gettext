@@ -36,7 +36,7 @@ In addition to Gettext features, this plugin:
   - [In templates](#in-templates)
   - [In filters, shortcodes](#in-filters-shortcodes)
 - [Shortcode](#shortcode)
-  - [`relocalizePath targetedLocale, pagePath`](#relocalizePath-targetedLocale-pagepath)
+  - [`relocalizePath targetedLocale, pagePath`](#relocalizepath-targetedLocale-pagepath)
 - [Sources](#sources)
 - [Credits](#credits)
 
