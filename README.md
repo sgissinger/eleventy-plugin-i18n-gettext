@@ -116,7 +116,7 @@ module.exports = function (eleventyConfig) {
     tokenFilePatterns: [
       'src/**/*.njk',
       'src/**/*.js'
-    ]
+    ],
     localeRegex: /^(?<lang>.{2})(?:-(?<country>.{2}))*$/
   })
 }
