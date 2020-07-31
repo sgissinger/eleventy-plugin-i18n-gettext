@@ -33,7 +33,10 @@ module.exports._ = (locale, key, ...args) => {
     this.gettext.setLocale(locale)
     const translation = this.gettext.gettext(key)
 
-    return printf(translation, ...args)
+    if( args.length ) {
+        return printf(translation, ...args)
+    }
+    return translation
 }
 
 module.exports._n = (locale, singular, plural, count, ...args) => {
@@ -41,7 +44,10 @@ module.exports._n = (locale, singular, plural, count, ...args) => {
     this.gettext.setLocale(locale)
     const translation = this.gettext.ngettext(singular, plural, count)
 
-    return printf(translation, ...args)
+    if( args.length ) {
+        return printf(translation, ...args)
+    }
+    return translation
 }
 
 module.exports._d = (locale, format, date) => {
