@@ -25,6 +25,7 @@ In addition to Gettext features, this plugin:
   - [`parserMode`](#parserMode)
   - [`javascriptMessages`](#javascriptMessages)
   - [`tokenFilePatterns`](#tokenFilePatterns)
+  - [`localeRegex`](#localeRegex)
 - [API](#api)
   - [`i18n.enhance11tydata(obj, locale, dir?)`](#i18nenhance11tydataobj-locale-dir)
   - [`i18n._(locale, key, ...args)`](#i18n_locale-key-args)
@@ -116,6 +117,7 @@ module.exports = function (eleventyConfig) {
       'src/**/*.njk',
       'src/**/*.js'
     ]
+    localeRegex: /^(?<lang>.{2})(?:-(?<country>.{2}))*$/
   })
 }
 ```
@@ -156,6 +158,14 @@ Glob patterns used to know which code source files to search for translation key
 
 It's relative to the Node process current working directory, usually the directory where is located `package.json` and from where `npm run` commands are executed.
 
+### `localeRegex`
+Type: `Regex` | Default: `/^(?<lang>.{2})(?:-(?<country>.{2}))*$/`
+
+This Regex is used to identify which part of locale directories are the language and the country.
+
+The default value identifies standard locales values, country part can be omitted but not the language part: `nl-be`, `nl`, `fr-be`, `fr`, ...
+
+For example, with this Regex `/^(?:(?<country>.{2}))*(?<lang>.{2})$/`, you can use the same locales pattern as used by [Apple](https://www.apple.com/choose-country-region/): `benl`, `nl`, `befr`, `fr`, ...
 
 ## API
 

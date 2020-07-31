@@ -15,7 +15,8 @@ module.exports.defaultConfiguration = {
     tokenFilePatterns: [
         'src/**/*.njk',
         'src/**/*.js'
-    ]
+    ],
+    localeRegex: /^(?<lang>.{2})(?:-(?<country>.{2}))*$/
 }
 module.exports.configuration = undefined
 module.exports.gettext = undefined
@@ -30,7 +31,10 @@ module.exports.init = (options) => {
 
 module.exports._ = (locale, key, ...args) => {
     this.loadTranslations()
-    this.gettext.setLocale(locale)
+
+    const standardLocale = this.getStandardLocale(locale)
+    this.gettext.setLocale(standardLocale)
+
     const translation = this.gettext.gettext(key)
 
     if( args.length ) {
@@ -41,7 +45,10 @@ module.exports._ = (locale, key, ...args) => {
 
 module.exports._n = (locale, singular, plural, count, ...args) => {
     this.loadTranslations()
-    this.gettext.setLocale(locale)
+
+    const standardLocale = this.getStandardLocale(locale)
+    this.gettext.setLocale(standardLocale)
+
     const translation = this.gettext.ngettext(singular, plural, count)
 
     if( args.length ) {
@@ -51,7 +58,8 @@ module.exports._n = (locale, singular, plural, count, ...args) => {
 }
 
 module.exports._d = (locale, format, date) => {
-    moment.locale(locale.substring(0, 2))
+    const standardLocale = this.getStandardLocale(locale)
+    moment.locale(standardLocale)
 
     return moment(date).format(format)
 }
@@ -76,7 +84,9 @@ module.exports.enhance11tydata = (obj, locale, dir = "ltr") => {
         console.error(`Language direction '${dir}' is invalid. It must be 'ltr' or 'rtl'.`)
     }
 
-    obj.lang = locale.substring(0, 2)
+    const match = locale.match(this.configuration.localeRegex)
+
+    obj.lang = match.groups.lang
     obj.langDir = dir
     obj.locale = locale
     obj._ = (key, ...args) => {
@@ -123,7 +133,8 @@ module.exports.loadTranslations = () => {
                     parsedTranslations = parser.mo.parse(content)
                 }
 
-                this.gettext.addTranslations(locale.name, 'messages', parsedTranslations)
+                const standardLocale = this.getStandardLocale(locale.name)
+                this.gettext.addTranslations(standardLocale, 'messages', parsedTranslations)
             })
 
         this.generateMessageFile()
@@ -170,4 +181,14 @@ module.exports.generateMessageFile = () => {
 
     console.log(`Writing ${messagesPath}.`)
     fs.writeFileSync(messagesPath, matches.join("\r\n"))
+}
+
+module.exports.getStandardLocale = (locale) => {
+    const match = locale.match(this.configuration.localeRegex)
+
+    if( match.groups.country ) {
+        return `${match.groups.lang}-${match.groups.country}`
+    }
+
+    return match.groups.lang
 }
