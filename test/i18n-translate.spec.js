@@ -6,7 +6,7 @@ const i18n = require('../i18n')
 chai.should()
 
 describe('i18n.translate', () => {
-    it('should translate a key found in file messages.po', () => {
+    it('should translate a key found in messages.po', () => {
         i18n.init({
             localesDirectory: 'test/locales'
         })
@@ -17,7 +17,7 @@ describe('i18n.translate', () => {
         actual.should.be.equal(expected)
     })
 
-    it('should not translate a key not found in file messages.po', () => {
+    it('should not translate a key not found in messages.po', () => {
         i18n.init({
             localesDirectory: 'test/locales'
         })
@@ -28,7 +28,7 @@ describe('i18n.translate', () => {
         actual.should.be.equal(expected)
     })
 
-    it('should not translate a key when file messages.po does not exist', () => {
+    it('should not translate a key when messages.po does not exist', () => {
         i18n.init({
             localesDirectory: 'test/locales'
         })

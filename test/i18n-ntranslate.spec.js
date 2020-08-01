@@ -6,7 +6,7 @@ const i18n = require('../i18n')
 chai.should()
 
 describe('i18n.ntranslate', () => {    
-    it('should translate a key found in file messages.po (singular)', () => {
+    it('should translate a key found in messages.po (singular)', () => {
         i18n.init({
             localesDirectory: 'test/locales'
         })
@@ -17,7 +17,7 @@ describe('i18n.ntranslate', () => {
         actual.should.be.equal(expected)
     })
 
-    it('should translate a key found in file messages.po (plural)', () => {
+    it('should translate a key found in messages.po (plural)', () => {
         i18n.init({
             localesDirectory: 'test/locales'
         })
@@ -28,7 +28,7 @@ describe('i18n.ntranslate', () => {
         actual.should.be.equal(expected)
     })
 
-    it('should not translate a key not found in file messages.po (singular)', () => {
+    it('should not translate a key not found in messages.po (singular)', () => {
         i18n.init({
             localesDirectory: 'test/locales'
         })
@@ -39,7 +39,7 @@ describe('i18n.ntranslate', () => {
         actual.should.be.equal(expected)
     })
 
-    it('should not translate a key not found in file messages.po (plural)', () => {
+    it('should not translate a key not found in messages.po (plural)', () => {
         i18n.init({
             localesDirectory: 'test/locales'
         })
@@ -50,7 +50,7 @@ describe('i18n.ntranslate', () => {
         actual.should.be.equal(expected)
     })
 
-    it('should not translate a key when file messages.po does not exist (singular)', () => {
+    it('should not translate a key when messages.po does not exist (singular)', () => {
         i18n.init({
             localesDirectory: 'test/locales'
         })
@@ -61,7 +61,7 @@ describe('i18n.ntranslate', () => {
         actual.should.be.equal(expected)
     })
 
-    it('should not translate a key when file messages.po does not exist (plural)', () => {
+    it('should not translate a key when messages.po does not exist (plural)', () => {
         i18n.init({
             localesDirectory: 'test/locales'
         })
