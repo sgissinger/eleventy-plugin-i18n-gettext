@@ -3,15 +3,9 @@
 const chai = require('chai')
 const i18n = require('../i18n')
 
-describe('i18n.init()', () => {
-    before(() => {
-        chai.should()
-    })
+chai.should()
 
-    beforeEach(() => {
-        i18n.configuration = undefined
-    })
-
+describe('i18n.init', () => {
     it('should set configuration with default configuration', () => {
         const expected = i18n.defaultConfiguration
 

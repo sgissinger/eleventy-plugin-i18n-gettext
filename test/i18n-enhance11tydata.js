@@ -5,17 +5,12 @@ const sinon = require('sinon')
 const i18n = require('../i18n')
 const fs = require('fs')
 
-describe('i18n.enhance11tydata()', () => {
-    before(() => {
-        chai.should()
-    })
+chai.should()
 
-    beforeEach(() => {
-        i18n.configuration = undefined
-        i18n.init({})
-    })
-
+describe('i18n.enhance11tydata', () => {
     it('should have i18n properties and functions set', () => {
+        i18n.init({})
+
         const actual = i18n.enhance11tydata({}, 'en-us')
 
         actual.lang.should.be.a('string')
@@ -31,6 +26,8 @@ describe('i18n.enhance11tydata()', () => {
     })
 
     it('should have i18n properties set with valid values', () => {
+        i18n.init({})
+
         const expected = {
             lang: 'fr',
             langDir: 'ltr',
@@ -45,6 +42,8 @@ describe('i18n.enhance11tydata()', () => {
     })
 
     it('should use path basename to retrieve the locale', () => {
+        i18n.init({})
+
         sinon.stub(fs, 'existsSync').returns(true)
 
         const expected = {
@@ -61,6 +60,8 @@ describe('i18n.enhance11tydata()', () => {
     })
 
     it('should keep custom data object values', () => {
+        i18n.init({})
+
         const expected = {
             eatSnails: true,
             city: 'Paris',
@@ -76,6 +77,7 @@ describe('i18n.enhance11tydata()', () => {
 
     it('should throw an error when direction is invalid', () => {
         (() => {
+            i18n.init({})
             i18n.enhance11tydata({}, 'fr-fr', 'rtt')
         })
         .should.throw("Language direction 'rtt' is invalid. It must be 'ltr' or 'rtl'.")

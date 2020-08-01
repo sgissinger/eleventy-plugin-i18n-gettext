@@ -5,19 +5,9 @@ const sinon = require('sinon')
 const i18n = require('../i18n')
 const eleventyConfig = require('@11ty/eleventy/src/Config')
 
-describe('i18n.normalizePath()', () => {
-    before(() => {
-        chai.should()
-    })
+chai.should()
 
-    beforeEach(() => {
-        i18n.pathPrefix = undefined
-    })
-
-    afterEach(() => {
-        sinon.restore()
-    })
-
+describe('i18n.normalizePath', () => {
     it('should not normalize path when pathPrefix is /', () => {
         sinon.stub(eleventyConfig, 'getConfig')
             .returns({ pathPrefix: '/' })
@@ -26,6 +16,8 @@ describe('i18n.normalizePath()', () => {
         const actual = i18n.normalizePath('/tatayoyo')
 
         actual.should.be.equal(expected)
+
+        sinon.restore()
     })
 
     it('should normalize path when pathPrefix is /blog/', () => {
@@ -36,6 +28,8 @@ describe('i18n.normalizePath()', () => {
         const actual = i18n.normalizePath('/blog/post-12345')
 
         actual.should.be.equal(expected)
+
+        sinon.restore()
     })
 
     it('should call @11ty/eleventy/src/Config.getConfig() only once', () => {
@@ -46,5 +40,7 @@ describe('i18n.normalizePath()', () => {
         i18n.normalizePath('/blog/post-12345')
 
         stub.callCount.should.be.equal(1)
+
+        sinon.restore()
     })
 })
