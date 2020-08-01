@@ -4,10 +4,7 @@
   "description": "Eleventy plugin which adds i18n support with Gettext string translation and moment.js date and times localization",
   "main": ".eleventy.js",
   "scripts": {
-    "test": "mocha --parallel",
-    "cover": "npm run cover:unit && npm run cover:report",
-    "cover:unit": "nyc --silent npm run test",
-    "cover:report": "nyc report --reporter=lcov"
+    "test": "jest --silent"
   },
   "repository": {
     "type": "git",
@@ -35,9 +32,12 @@
     "moment": "^2.27.0"
   },
   "devDependencies": {
-    "mocha": "^8.1.0",
+    "jest": "^26.2.2",
     "chai": "^4.2.0",
-    "sinon": "^9.0.2",
-    "nyc": "^15.1.0"
+    "sinon": "^9.0.2"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "coverageDirectory": "coverage"
   }
 }
