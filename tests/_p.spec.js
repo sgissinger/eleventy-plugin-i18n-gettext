@@ -6,10 +6,13 @@ const i18n = require('../i18n')
 chai.should()
 
 describe('i18n._p', () => {
-    it('should localize a path', () => {
+    beforeEach(() => {
         i18n.init({
-            localesDirectory: 'test/locales'
+            localesDirectory: 'tests/locales'
         })
+    })
+
+    it('should localize a path', () => {
         i18n.pathPrefix = '/'
 
         const expected = '/fr-fr/apple'
@@ -19,9 +22,6 @@ describe('i18n._p', () => {
     })
 
     it('should localize a path having a pathPrefix', () => {
-        i18n.init({
-            localesDirectory: 'test/locales'
-        })
         i18n.pathPrefix = '/blog/'
 
         const expected = '/fr-fr/apple'
@@ -31,9 +31,6 @@ describe('i18n._p', () => {
     })
 
     it('should localize a path (enhance11tydata)', () => {
-        i18n.init({
-            localesDirectory: 'test/locales'
-        })
         i18n.pathPrefix = '/'
 
         const eleventyData = i18n.enhance11tydata({}, 'fr-fr')

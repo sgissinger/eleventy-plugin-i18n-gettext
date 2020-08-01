@@ -6,11 +6,13 @@ const i18n = require('../i18n')
 chai.should()
 
 describe('i18n._n', () => {
-    it('should translate a key found in messages.po (singular)', () => {
+    beforeEach(() => {
         i18n.init({
-            localesDirectory: 'test/locales'
+            localesDirectory: 'tests/locales'
         })
+    })
 
+    it('should translate a key found in messages.po (singular)', () => {
         const expected = 'Banane jaune'
         const actual = i18n._ni('fr-fr', 'Yellow banana', 'Yellow bananas', 1)
 
@@ -18,10 +20,6 @@ describe('i18n._n', () => {
     })
 
     it('should translate a key found in messages.po (plural)', () => {
-        i18n.init({
-            localesDirectory: 'test/locales'
-        })
-
         const expected = 'Bananes jaunes'
         const actual = i18n._ni('fr-fr', 'Yellow banana', 'Yellow bananas', 2)
 
@@ -29,10 +27,6 @@ describe('i18n._n', () => {
     })
 
     it('should not translate a key not found in messages.po (singular)', () => {
-        i18n.init({
-            localesDirectory: 'test/locales'
-        })
-
         const expected = 'Red blackberry'
         const actual = i18n._ni('fr-fr', 'Red blackberry', 'Red blackberries', 1)
 
@@ -40,10 +34,6 @@ describe('i18n._n', () => {
     })
 
     it('should not translate a key not found in messages.po (plural)', () => {
-        i18n.init({
-            localesDirectory: 'test/locales'
-        })
-
         const expected = 'Red blackberries'
         const actual = i18n._ni('fr-fr', 'Red blackberry', 'Red blackberries', 2)
 
@@ -51,10 +41,6 @@ describe('i18n._n', () => {
     })
 
     it('should not translate a key when messages.po does not exist (singular)', () => {
-        i18n.init({
-            localesDirectory: 'test/locales'
-        })
-
         const expected = 'Yellow banana'
         const actual = i18n._ni('nl-be', 'Yellow banana', 'Yellow bananas', 1)
 
@@ -62,10 +48,6 @@ describe('i18n._n', () => {
     })
 
     it('should not translate a key when messages.po does not exist (plural)', () => {
-        i18n.init({
-            localesDirectory: 'test/locales'
-        })
-
         const expected = 'Yellow bananas'
         const actual = i18n._ni('nl-be', 'Yellow banana', 'Yellow bananas', 2)
 
@@ -73,10 +55,6 @@ describe('i18n._n', () => {
     })
 
     it('should translate a key found in messages.po then interpolate string', () => {
-        i18n.init({
-            localesDirectory: 'test/locales'
-        })
-
         const expected = 'Ces 3 fruits sont excellents.'
         const actual = i18n._ni('fr-fr', 'This single fruit is excellent.', 'These ${count} fruits are excellent.', 3, {count:3})
 
@@ -84,10 +62,6 @@ describe('i18n._n', () => {
     })
 
     it('should translate a key found in messages.po then interpolate string (enhance11tydata)', () => {
-        i18n.init({
-            localesDirectory: 'test/locales'
-        })
-
         const eleventyData = i18n.enhance11tydata({}, 'fr-fr')
 
         const expected = 'Ces 3 fruits sont excellents.'
