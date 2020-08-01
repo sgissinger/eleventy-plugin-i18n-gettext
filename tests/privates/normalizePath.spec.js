@@ -2,11 +2,11 @@
 
 const chai = require('chai')
 const sinon = require('sinon')
-const i18n = require('../i18n')
+const i18n = require('../../i18n')
 
 chai.should()
 
-describe('i18n.normalizePath', () => {
+describe('normalizePath', () => {
     it('should not normalize path when pathPrefix is /', () => {
         i18n.pathPrefix = '/'
 

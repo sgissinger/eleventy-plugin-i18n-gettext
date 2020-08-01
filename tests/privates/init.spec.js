@@ -1,11 +1,11 @@
 'use strict'
 
 const chai = require('chai')
-const i18n = require('../i18n')
+const i18n = require('../../i18n')
 
 chai.should()
 
-describe('i18n.init', () => {
+describe('init', () => {
     it('should set configuration with default configuration', () => {
         const expected = i18n.defaultConfiguration
 
