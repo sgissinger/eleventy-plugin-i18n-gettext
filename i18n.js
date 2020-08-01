@@ -23,7 +23,7 @@ module.exports.configuration = undefined
 module.exports.gettext = undefined
 module.exports.pathPrefix = undefined
 
-module.exports.init = options => {
+module.exports.init = (options = {}) => {
     this.configuration = Object.assign(this.defaultConfiguration, options)
 
     if( !['po', 'mo'].includes(this.configuration.parserMode) ) {
@@ -174,7 +174,7 @@ module.exports.enhance11tydata = (obj, locale, dir = 'ltr') => {
 
 module.exports.loadTranslations = () => {
     if( this.configuration === undefined ) {
-        this.init({})
+        this.init()
     }
 
     if( this.gettext === undefined ) {

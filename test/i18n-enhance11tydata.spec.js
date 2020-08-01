@@ -9,7 +9,7 @@ chai.should()
 
 describe('i18n.enhance11tydata', () => {
     it('should have i18n properties and functions set', () => {
-        i18n.init({})
+        i18n.init()
 
         const actual = i18n.enhance11tydata({}, 'en-us')
 
@@ -26,7 +26,7 @@ describe('i18n.enhance11tydata', () => {
     })
 
     it('should have i18n properties set with valid values', () => {
-        i18n.init({})
+        i18n.init()
 
         const expected = {
             lang: 'fr',
@@ -42,7 +42,7 @@ describe('i18n.enhance11tydata', () => {
     })
 
     it('should use path basename to retrieve the locale', () => {
-        i18n.init({})
+        i18n.init()
 
         sinon.stub(fs, 'existsSync').returns(true)
 
@@ -60,7 +60,7 @@ describe('i18n.enhance11tydata', () => {
     })
 
     it('should keep custom data object values', () => {
-        i18n.init({})
+        i18n.init()
 
         const expected = {
             eatSnails: true,
@@ -77,7 +77,6 @@ describe('i18n.enhance11tydata', () => {
 
     it('should throw an error when direction is invalid', () => {
         (() => {
-            i18n.init({})
             i18n.enhance11tydata({}, 'fr-fr', 'rtt')
         })
         .should.throw("Language direction 'rtt' is invalid. It must be 'ltr' or 'rtl'.")

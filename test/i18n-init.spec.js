@@ -9,7 +9,7 @@ describe('i18n.init', () => {
     it('should set configuration with default configuration', () => {
         const expected = i18n.defaultConfiguration
 
-        i18n.init({})
+        i18n.init()
         const actual = i18n.configuration
 
         actual.should.be.deep.equal(expected)
