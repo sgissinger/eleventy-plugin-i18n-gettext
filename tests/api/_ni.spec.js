@@ -1,11 +1,11 @@
 'use strict'
 
 const chai = require('chai')
-const i18n = require('../i18n')
+const i18n = require('../../i18n')
 
 chai.should()
 
-describe('i18n._n', () => {
+describe('_n', () => {
     beforeEach(() => {
         i18n.init({
             localesDirectory: 'tests/locales'
@@ -14,58 +14,58 @@ describe('i18n._n', () => {
 
     it('should translate a key found in messages.po (singular)', () => {
         const expected = 'Banane jaune'
-        const actual = i18n._n('fr-fr', 'Yellow banana', 'Yellow bananas', 1)
+        const actual = i18n._ni('fr-fr', 'Yellow banana', 'Yellow bananas', 1)
 
         actual.should.be.equal(expected)
     })
 
     it('should translate a key found in messages.po (plural)', () => {
         const expected = 'Bananes jaunes'
-        const actual = i18n._n('fr-fr', 'Yellow banana', 'Yellow bananas', 2)
+        const actual = i18n._ni('fr-fr', 'Yellow banana', 'Yellow bananas', 2)
 
         actual.should.be.equal(expected)
     })
 
     it('should not translate a key not found in messages.po (singular)', () => {
         const expected = 'Red blackberry'
-        const actual = i18n._n('fr-fr', 'Red blackberry', 'Red blackberries', 1)
+        const actual = i18n._ni('fr-fr', 'Red blackberry', 'Red blackberries', 1)
 
         actual.should.be.equal(expected)
     })
 
     it('should not translate a key not found in messages.po (plural)', () => {
         const expected = 'Red blackberries'
-        const actual = i18n._n('fr-fr', 'Red blackberry', 'Red blackberries', 2)
+        const actual = i18n._ni('fr-fr', 'Red blackberry', 'Red blackberries', 2)
 
         actual.should.be.equal(expected)
     })
 
     it('should not translate a key when messages.po does not exist (singular)', () => {
         const expected = 'Yellow banana'
-        const actual = i18n._n('nl-be', 'Yellow banana', 'Yellow bananas', 1)
+        const actual = i18n._ni('nl-be', 'Yellow banana', 'Yellow bananas', 1)
 
         actual.should.be.equal(expected)
     })
 
     it('should not translate a key when messages.po does not exist (plural)', () => {
         const expected = 'Yellow bananas'
-        const actual = i18n._n('nl-be', 'Yellow banana', 'Yellow bananas', 2)
+        const actual = i18n._ni('nl-be', 'Yellow banana', 'Yellow bananas', 2)
 
         actual.should.be.equal(expected)
     })
 
-    it('should translate a key found in messages.po then format with printf', () => {
+    it('should translate a key found in messages.po then interpolate string', () => {
         const expected = 'Ces 3 fruits sont excellents.'
-        const actual = i18n._n('fr-fr', 'This unique fruit is excellent.', 'These %d fruits are excellent.', 3, 3)
+        const actual = i18n._ni('fr-fr', 'This single fruit is excellent.', 'These ${count} fruits are excellent.', 3, {count:3})
 
         actual.should.be.equal(expected)
     })
 
-    it('should translate a key found in messages.po then format with printf (enhance11tydata)', () => {
+    it('should translate a key found in messages.po then interpolate string (enhance11tydata)', () => {
         const eleventyData = i18n.enhance11tydata({}, 'fr-fr')
 
         const expected = 'Ces 3 fruits sont excellents.'
-        const actual = eleventyData._n('This unique fruit is excellent.', 'These %d fruits are excellent.', 3, 3)
+        const actual = eleventyData._ni('This single fruit is excellent.', 'These ${count} fruits are excellent.', 3, {count:3})
 
         actual.should.be.equal(expected)
     })

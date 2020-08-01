@@ -1,11 +1,11 @@
 'use strict'
 
 const chai = require('chai')
-const i18n = require('../i18n')
+const i18n = require('../../i18n')
 
 chai.should()
 
-describe('i18n._', () => {
+describe('_i', () => {
     beforeEach(() => {
         i18n.init({
             localesDirectory: 'tests/locales'
@@ -14,37 +14,37 @@ describe('i18n._', () => {
 
     it('should translate a key found in messages.po', () => {
         const expected = 'Banane'
-        const actual = i18n._('fr-fr', 'Banana')
+        const actual = i18n._i('fr-fr', 'Banana')
 
         actual.should.be.equal(expected)
     })
 
     it('should not translate a key not found in messages.po', () => {
         const expected = 'Blackberry'
-        const actual = i18n._('fr-fr', 'Blackberry')
+        const actual = i18n._i('fr-fr', 'Blackberry')
 
         actual.should.be.equal(expected)
     })
 
     it('should not translate a key when messages.po does not exist', () => {
         const expected = 'Banana'
-        const actual = i18n._('nl-be', 'Banana')
+        const actual = i18n._i('nl-be', 'Banana')
 
         actual.should.be.equal(expected)
     })
 
-    it('should translate a key found in messages.po then format with printf', () => {
-        const expected = 'La pomme éloigne le médecin.'
-        const actual = i18n._('fr-fr', 'The %s keeps the doctor away.', 'pomme')
+    it('should translate a key found in messages.po then interpolate string', () => {
+        const expected = 'La pomme éloigne le médecin (3).'
+        const actual = i18n._i('fr-fr', 'The ${name} keeps the doctor away (${count}).', {name:'pomme', count:3})
 
         actual.should.be.equal(expected)
     })
 
-    it('should translate a key found in messages.po then format with printf (enhance11tydata)', () => {
+    it('should translate a key found in messages.po then interpolate string (enhance11tydata)', () => {
         const eleventyData = i18n.enhance11tydata({}, 'fr-fr')
 
-        const expected = 'La pomme éloigne le médecin.'
-        const actual = eleventyData._('The %s keeps the doctor away.', 'pomme')
+        const expected = 'La pomme éloigne le médecin (3).'
+        const actual = eleventyData._i('The ${name} keeps the doctor away (${count}).', {name:'pomme', count:3})
 
         actual.should.be.equal(expected)
     })

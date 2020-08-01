@@ -1,11 +1,11 @@
 'use strict'
 
 const chai = require('chai')
-const i18n = require('../i18n')
+const i18n = require('../../i18n')
 
 chai.should()
 
-describe('i18n._p', () => {
+describe('_p', () => {
     beforeEach(() => {
         i18n.init({
             localesDirectory: 'tests/locales'
