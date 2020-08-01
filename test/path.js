@@ -1,3 +1,5 @@
+'use strict'
+
 const chai = require('chai')
 const sinon = require('sinon')
 const eleventyConfig = require('@11ty/eleventy/src/Config')

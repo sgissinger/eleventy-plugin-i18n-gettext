@@ -1,3 +1,5 @@
+'use strict'
+
 const chai = require('chai')
 const dynamic_interpolation = require('../i18n-dynamic-interpolation')
 
