@@ -48,6 +48,10 @@ module.exports.normalizePath = path => {
 module.exports.getStandardLocale = locale => {
     const match = locale.match(this.configuration.localeRegex)
 
+    if ( !match ) {
+        throw `Locale ${locale} does not match regex ${this.configuration.localeRegex}`
+    }
+
     if( match.groups.country ) {
         return `${match.groups.lang}-${match.groups.country}`
     }
