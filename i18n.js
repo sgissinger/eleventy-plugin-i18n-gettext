@@ -61,7 +61,11 @@ module.exports.getStandardLocale = locale => {
 
 module.exports.setLocale = locale => {
     const standardLocale = this.getStandardLocale(locale)
-    this.gettext.setLocale(standardLocale)
+
+    if( this.gettext ) {
+        this.gettext.setLocale(standardLocale)
+    }
+    moment.locale(standardLocale)
 }
 
 module.exports.translate = (locale, key) => {
@@ -115,8 +119,7 @@ module.exports._ni = (locale, singular, plural, count, obj) => {
 }
 
 module.exports._d = (locale, format, date) => {
-    const standardLocale = this.getStandardLocale(locale)
-    moment.locale(standardLocale)
+    this.setLocale(locale)
 
     return moment(date).format(format)
 }
