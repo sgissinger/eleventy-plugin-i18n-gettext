@@ -27,7 +27,7 @@ module.exports.init = options => {
     this.configuration = Object.assign(this.defaultConfiguration, options)
 
     if( !['po', 'mo'].includes(this.configuration.parserMode) ) {
-        console.error(`Parser mode '${this.configuration.parserMode}' is invalid. It must be 'po' or 'mo'.`)
+        throw `Parser mode '${this.configuration.parserMode}' is invalid. It must be 'po' or 'mo'.`
     }
 }
 
@@ -39,7 +39,7 @@ module.exports.normalizePath = path => {
         this.pathPrefix = projectConfig.pathPrefix
     }
 
-    if( this.pathPrefix !== '/') {
+    if( this.pathPrefix !== '/' ) {
         return path.replace(this.pathPrefix, '')
     }
     return path
