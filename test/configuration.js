@@ -2,6 +2,10 @@ const assert = require('assert')
 const i18n = require('../i18n')
 
 describe('Configuration initialization', () => {
+    beforeEach(() => {
+        i18n.configuration = undefined
+    })
+
     it('should set configuration with default configuration', () => {
         const expected = i18n.defaultConfiguration
 
