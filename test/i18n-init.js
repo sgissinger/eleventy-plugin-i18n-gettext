@@ -3,7 +3,7 @@
 const chai = require('chai')
 const i18n = require('../i18n')
 
-describe('Configuration initialization', () => {
+describe('i18n.init()', () => {
     before(() => {
         chai.should()
     })
