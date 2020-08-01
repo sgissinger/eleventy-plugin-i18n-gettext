@@ -1,7 +1,11 @@
-const assert = require('assert')
+const chai = require('chai')
 const i18n = require('../i18n')
 
 describe('i18n.getStandardLocale()', () => {
+    before(() => {
+        chai.should()
+    })
+
     describe('default localeRegex', () => {
         beforeEach(() => {
             i18n.configuration = undefined
@@ -12,24 +16,21 @@ describe('i18n.getStandardLocale()', () => {
             const expected = "fr-fr"
             const actual = i18n.getStandardLocale("fr-fr")
 
-            assert.strictEqual(actual, expected)
+            actual.should.be.equal(expected)
         })
 
         it('should returns the lang locale', () => {
             const expected = "fr"
             const actual = i18n.getStandardLocale("fr")
 
-            assert.strictEqual(actual, expected)
+            actual.should.be.equal(expected)
         })
 
         it('should throw an exception if locale does not match', () => {
-            assert.throws(
-                () => {
-                    i18n.getStandardLocale("benl")
-                },
-                null,
-                "Locale benl does not match regex /^(?<lang>.{2})(?:-(?<country>.{2}))*$/"
-            )
+            (() => {
+                i18n.getStandardLocale("benl")
+            })
+            .should.throw("Locale benl does not match regex /^(?<lang>.{2})(?:-(?<country>.{2}))*$/")
         })
     })
 
@@ -45,24 +46,21 @@ describe('i18n.getStandardLocale()', () => {
             const expected = "nl-be"
             const actual = i18n.getStandardLocale("benl")
 
-            assert.strictEqual(actual, expected)
+            actual.should.be.equal(expected)
         })
 
         it('should returns the lang locale', () => {
             const expected = "nl"
             const actual = i18n.getStandardLocale("nl")
 
-            assert.strictEqual(actual, expected)
+            actual.should.be.equal(expected)
         })
 
         it('should throw an exception if locale does not match', () => {
-            assert.throws(
-                () => {
-                    i18n.getStandardLocale("nl-be")
-                },
-                null,
-                "Locale nl-be does not match regex /^(?:(?<country>.{2}))*(?<lang>.{2})$/"
-            )
+            (() => {
+                i18n.getStandardLocale("nl-be")
+            })
+            .should.throw("Locale nl-be does not match regex /^(?:(?<country>.{2}))*(?<lang>.{2})$/")
         })
     })
 })

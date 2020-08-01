@@ -1,7 +1,11 @@
-const assert = require('assert')
+const chai = require('chai')
 const i18n = require('../i18n')
 
 describe('Configuration initialization', () => {
+    before(() => {
+        chai.should()
+    })
+
     beforeEach(() => {
         i18n.configuration = undefined
     })
@@ -12,7 +16,7 @@ describe('Configuration initialization', () => {
         i18n.init({})
         const actual = i18n.configuration
 
-        assert.deepStrictEqual(actual, expected)
+        actual.should.be.deep.equal(expected)
     })
 
     it('should set configuration with partial custom configuration', () => {
@@ -34,7 +38,7 @@ describe('Configuration initialization', () => {
         })
         const actual = i18n.configuration
 
-        assert.deepStrictEqual(actual, expected)
+        actual.should.be.deep.equal(expected)
     })
 
     it('should set configuration with full custom configuration', () => {
@@ -59,18 +63,15 @@ describe('Configuration initialization', () => {
         })
         const actual = i18n.configuration
 
-        assert.deepStrictEqual(actual, expected)
+        actual.should.be.deep.equal(expected)
     })
 
     it('should throw error when parser mode is invalid', () => {
-        assert.throws(
-            () => {
-                i18n.init({
-                    parserMode: 'mon'
-                })
-            },
-            null,
-            "Parser mode 'mon' is invalid. It must be 'po' or 'mo'."
-        )
+        (() => {
+            i18n.init({
+                parserMode: 'mon'
+            })
+        })
+        .should.throw("Parser mode 'mon' is invalid. It must be 'po' or 'mo'.")
     })
 })
