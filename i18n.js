@@ -142,7 +142,7 @@ module.exports.enhance11tydata = (obj, locale, dir = 'ltr') => {
     }
 
     if( !['ltr', 'rtl'].includes(dir) ) {
-        console.error(`Language direction '${dir}' is invalid. It must be 'ltr' or 'rtl'.`)
+        throw `Language direction '${dir}' is invalid. It must be 'ltr' or 'rtl'.`
     }
 
     const match = locale.match(this.configuration.localeRegex)
