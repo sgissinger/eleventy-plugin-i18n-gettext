@@ -2,8 +2,8 @@
 
 const chai = require('chai')
 const sinon = require('sinon')
-const eleventyConfig = require('@11ty/eleventy/src/Config')
 const i18n = require('../i18n')
+const eleventyConfig = require('@11ty/eleventy/src/Config')
 
 describe('i18n.normalizePath()', () => {
     before(() => {
