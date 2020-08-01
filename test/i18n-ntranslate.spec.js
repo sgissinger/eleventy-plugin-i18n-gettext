@@ -5,7 +5,7 @@ const i18n = require('../i18n')
 
 chai.should()
 
-describe('i18n.ntranslate', () => {    
+describe('i18n.ntranslate', () => {
     it('should translate a key found in messages.po (singular)', () => {
         i18n.init({
             localesDirectory: 'test/locales'
