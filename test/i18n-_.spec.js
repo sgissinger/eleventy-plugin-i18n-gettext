@@ -17,6 +17,28 @@ describe('i18n._', () => {
         actual.should.be.equal(expected)
     })
 
+    it('should not translate a key not found in messages.po', () => {
+        i18n.init({
+            localesDirectory: 'test/locales'
+        })
+
+        const expected = 'Blackberry'
+        const actual = i18n._('fr-fr', 'Blackberry')
+
+        actual.should.be.equal(expected)
+    })
+
+    it('should not translate a key when messages.po does not exist', () => {
+        i18n.init({
+            localesDirectory: 'test/locales'
+        })
+
+        const expected = 'Banana'
+        const actual = i18n._('nl-be', 'Banana')
+
+        actual.should.be.equal(expected)
+    })
+
     it('should translate a key found in messages.po then format with printf', () => {
         i18n.init({
             localesDirectory: 'test/locales'
