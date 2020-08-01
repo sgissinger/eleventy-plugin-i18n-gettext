@@ -2,12 +2,12 @@
 
 const chai = require('chai')
 const sinon = require('sinon')
-const i18n = require('../i18n')
+const i18n = require('../../i18n')
 const fs = require('fs')
 
 chai.should()
 
-describe('i18n.enhance11tydata', () => {
+describe('enhance11tydata', () => {
     it('should have i18n properties and functions set', () => {
         i18n.init()
 
