@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Doc folder from npm package
 ### Fixed
 - Handle pathPrefix more consistently
+- Exceptions are thrown explicitly instead of log error messages
 
 ## [1.1.3] - 2020-07-31
 ### Added
