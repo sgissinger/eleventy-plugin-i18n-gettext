@@ -25,7 +25,7 @@ module.exports = (eleventyConfig, options = {}) => {
     eleventyConfig.addShortcode('_i',  (locale, key, obj) => i18n._i(locale, key, obj) )
     eleventyConfig.addShortcode('_n',  (locale, singular, plural, count, ...args) => i18n._n(locale, singular, plural, count, ...args) )
     eleventyConfig.addShortcode('_ni', (locale, singular, plural, count, obj) => i18n._ni(locale, singular, plural, count, obj) )
-    eleventyConfig.addShortcode('_d',  (locale, format, date) => i18n._d(locale, format, date) )
+    eleventyConfig.addShortcode('_d',  (locale, format, date, timezone) => i18n._d(locale, format, date, timezone) )
     eleventyConfig.addShortcode('_p',  (locale, path) => {
         const url = i18n._p(locale, path)
 
