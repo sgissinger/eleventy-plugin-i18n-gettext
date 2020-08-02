@@ -176,11 +176,19 @@ module.exports.enhance11tydata = (obj, locale, dir = 'ltr') => {
 }
 
 module.exports.loadTranslations = () => {
-    if( this.configuration === undefined ) {
-        this.init()
-    }
-
     if( this.gettext === undefined ) {
+        let gettextParser = undefined
+
+        if( this.configuration.parserMode === 'po' ) {
+            gettextParser = parser.po
+        }
+        else if( this.configuration.parserMode === 'mo' ) {
+            gettextParser = parser.mo
+        }
+        else {
+            throw `Parser mode '${this.configuration.parserMode}' is invalid. It must be 'po' or 'mo'.`
+        }
+
         const localesDir = path.join(process.cwd(), this.configuration.localesDirectory)
         const localeFileName = `messages.${this.configuration.parserMode}`
 
@@ -193,15 +201,7 @@ module.exports.loadTranslations = () => {
                 console.log(`Loading ${filePath}.`)
 
                 const content = fs.readFileSync(filePath)
-
-                let parsedTranslations = undefined
-
-                if( this.configuration.parserMode === 'po' ) {
-                    parsedTranslations = parser.po.parse(content)
-                }
-                else if( this.configuration.parserMode === 'mo' ) {
-                    parsedTranslations = parser.mo.parse(content)
-                }
+                const parsedTranslations = gettextParser.parse(content)
 
                 const standardLocale = this.getStandardLocale(locale.name)
                 this.gettext.addTranslations(standardLocale, 'messages', parsedTranslations)
