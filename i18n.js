@@ -141,7 +141,7 @@ module.exports.relocalizePath = (targetedLocale, pagePath) => {
 
 module.exports.enhance11tydata = (obj, locale, dir = 'ltr') => {
     if ( fs.existsSync(locale) ) {
-        locale = path.basename(locale)
+        locale = path.win32.basename(locale)
     }
 
     if( !['ltr', 'rtl'].includes(dir) ) {
