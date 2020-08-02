@@ -102,4 +102,32 @@ describe('enhance11tydata', () => {
         })
         .should.throw("Language direction 'rtt' is invalid. It must be 'ltr' or 'rtl'.")
     })
+
+    it('should translate a key found in messages.po using custom localeRegex', () => {
+        i18n.init({
+            localesDirectory: 'tests/assets/locales-custom',
+            localeRegex: /^(?:(?<country>.{2}))*(?<lang>.{2})$/
+        })
+        
+        const eleventyData = i18n.enhance11tydata({}, 'befr')
+
+        const expected = 'Banane'
+        const actual = eleventyData._('Banana')
+
+        actual.should.be.equal(expected)
+    })
+
+    it('should throw an error when locale does not match custom localeRegex', () => {
+        (() => {
+            i18n.init({
+                localesDirectory: 'tests/assets/locales',
+                localeRegex: /^(?:(?<country>.{2}))*(?<lang>.{2})$/
+            })
+
+            const eleventyData = i18n.enhance11tydata({}, 'fr-fr')
+
+            eleventyData._('Banana')
+        })
+        .should.throw("Locale fr-fr does not match regex /^(?:(?<country>.{2}))*(?<lang>.{2})$/")
+    })
 })
