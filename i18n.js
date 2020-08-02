@@ -45,27 +45,27 @@ module.exports.normalizePath = path => {
     return path
 }
 
-module.exports.getStandardLocale = locale => {
+module.exports.parseLocale = locale => {
     const match = locale.match(this.configuration.localeRegex)
 
     if ( !match ) {
         throw `Locale ${locale} does not match regex ${this.configuration.localeRegex}`
     }
 
-    if( match.groups.country ) {
-        return `${match.groups.lang}-${match.groups.country}`
+    return {
+        lang: match.groups.lang,
+        country: match.groups.country ? match.groups.country : '',
+        locale: match.groups.country ? `${match.groups.lang}-${match.groups.country}` : match.groups.lang
     }
-
-    return match.groups.lang
 }
 
 module.exports.setLocale = locale => {
-    const standardLocale = this.getStandardLocale(locale)
+    const parsedLocale = this.parseLocale(locale)
 
     if( this.gettext ) {
-        this.gettext.setLocale(standardLocale)
+        this.gettext.setLocale(parsedLocale.locale)
     }
-    moment.locale(standardLocale)
+    moment.locale(parsedLocale.locale)
 }
 
 module.exports.translate = (locale, key) => {
@@ -148,28 +148,28 @@ module.exports.enhance11tydata = (obj, locale, dir = 'ltr') => {
         throw `Language direction '${dir}' is invalid. It must be 'ltr' or 'rtl'.`
     }
 
-    const match = locale.match(this.configuration.localeRegex)
+    const parsedLocale = this.parseLocale(locale)
 
-    obj.lang = match.groups.lang
+    obj.lang = parsedLocale.lang
     obj.langDir = dir
-    obj.locale = locale
+    obj.locale = parsedLocale.locale
     obj._ = (key, ...args) => {
-        return this._(locale, key, ...args)
+        return this._(parsedLocale.locale, key, ...args)
     }
     obj._i = (key, obj) => {
-        return this._i(locale, key, obj)
+        return this._i(parsedLocale.locale, key, obj)
     }
     obj._n = (singular, plural, count, ...args) => {
-        return this._n(locale, singular, plural, count, ...args)
+        return this._n(parsedLocale.locale, singular, plural, count, ...args)
     }
     obj._ni = (singular, plural, count, obj) => {
-        return this._ni(locale, singular, plural, count, obj)
+        return this._ni(parsedLocale.locale, singular, plural, count, obj)
     }
     obj._d = (format, date) => {
-        return this._d(locale, format, date)
+        return this._d(parsedLocale.locale, format, date)
     }
     obj._p = (basePath) => {
-        return this._p(locale, basePath)
+        return this._p(parsedLocale.locale, basePath)
     }
 
     return obj
@@ -203,8 +203,8 @@ module.exports.loadTranslations = () => {
                 const content = fs.readFileSync(filePath)
                 const parsedTranslations = gettextParser.parse(content)
 
-                const standardLocale = this.getStandardLocale(locale.name)
-                this.gettext.addTranslations(standardLocale, 'messages', parsedTranslations)
+                const parsedLocale = this.parseLocale(locale.name)
+                this.gettext.addTranslations(parsedLocale.locale, 'messages', parsedTranslations)
             })
 
         this.generateMessageFile()

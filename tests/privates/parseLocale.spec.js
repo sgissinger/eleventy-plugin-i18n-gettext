@@ -5,30 +5,38 @@ const i18n = require('../../i18n')
 
 chai.should()
 
-describe('getStandardLocale', () => {
+describe('parseLocale', () => {
     describe('default localeRegex', () => {
         it('should returns the full locale', () => {
             i18n.init()
     
-            const expected = 'fr-fr'
-            const actual = i18n.getStandardLocale('fr-fr')
+            const expected = {
+                lang: 'fr',
+                country: 'fr',
+                locale: 'fr-fr'
+            }
+            const actual = i18n.parseLocale('fr-fr')
     
-            actual.should.be.equal(expected)
+            actual.should.be.deep.equal(expected)
         })
 
         it('should returns the lang locale', () => {
             i18n.init()
     
-            const expected = 'fr'
-            const actual = i18n.getStandardLocale('fr')
+            const expected = {
+                lang: 'fr',
+                country: '',
+                locale: 'fr'
+            }
+            const actual = i18n.parseLocale('fr')
     
-            actual.should.be.equal(expected)
+            actual.should.be.deep.equal(expected)
         })
 
         it('should throw an exception if locale does not match', () => {
             (() => {
                 i18n.init()
-                i18n.getStandardLocale('benl')
+                i18n.parseLocale('benl')
             })
             .should.throw('Locale benl does not match regex /^(?<lang>.{2})(?:-(?<country>.{2}))*$/')
         })
@@ -40,10 +48,14 @@ describe('getStandardLocale', () => {
                 localeRegex: /^(?:(?<country>.{2}))*(?<lang>.{2})$/
             })
 
-            const expected = 'nl-be'
-            const actual = i18n.getStandardLocale('benl')
+            const expected = {
+                lang: 'nl',
+                country: 'be',
+                locale: 'nl-be'
+            }
+            const actual = i18n.parseLocale('benl')
 
-            actual.should.be.equal(expected)
+            actual.should.be.deep.equal(expected)
         })
 
         it('should returns the lang locale', () => {
@@ -51,10 +63,14 @@ describe('getStandardLocale', () => {
                 localeRegex: /^(?:(?<country>.{2}))*(?<lang>.{2})$/
             })
 
-            const expected = 'nl'
-            const actual = i18n.getStandardLocale('nl')
+            const expected = {
+                lang: 'nl',
+                country: '',
+                locale: 'nl'
+            }
+            const actual = i18n.parseLocale('nl')
 
-            actual.should.be.equal(expected)
+            actual.should.be.deep.equal(expected)
         })
 
         it('should throw an exception if locale does not match', () => {
@@ -62,7 +78,7 @@ describe('getStandardLocale', () => {
                 i18n.init({
                     localeRegex: /^(?:(?<country>.{2}))*(?<lang>.{2})$/
                 })
-                i18n.getStandardLocale('nl-be')
+                i18n.parseLocale('nl-be')
             })
             .should.throw('Locale nl-be does not match regex /^(?:(?<country>.{2}))*(?<lang>.{2})$/')
         })
