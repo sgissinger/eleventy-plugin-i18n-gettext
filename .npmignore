@@ -1,0 +1,5 @@
+docs/
+tests/
+.vscode/
+coverage/
+*.tgz
