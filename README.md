@@ -392,6 +392,8 @@ It's set by [`i18n.enhance11tydata(obj, locale, dir?)`](#i18nenhance11tydataobj-
     <div>{{ _ni('I like Gettext as much as ${chief}', 'They like Gettext as much as ${chief}', peopleCount, { chief: 'John' }) }}</div>
 
     <div>{{ _d('LL', page.date) }}</div>
+    <div>{{ _d('LL', '2020-08-01T21:57:00.000Z', 'Asia/Bangkok') }}</div>
+    <div>{{ _d('LL', 1596319020000, 'UTC') }}</div>
     <div>{{ _p('/') | url }}</div>
   </body>
 </html>
@@ -414,6 +416,8 @@ In this context, `locale` parameter is mandatory.
     <div>{% _ni locale, 'I like Gettext as much as ${chief}', 'They like Gettext as much as ${chief}', peopleCount, { chief: 'John' } %}</div>
 
     <div>{% _d  locale, 'LL', page.date %}</div>
+    <div>{% _d  locale, 'LL', '2020-08-01T21:57:00.000Z', 'Asia/Bangkok' %}</div>
+    <div>{% _d  locale, 'LL', 1596319020000, 'UTC' %}</div>
     <!-- `_p` shortcode applies the `url` built-in filter by itself -->
     <div>{% _p  locale, '/' %}</div>
   </body>
