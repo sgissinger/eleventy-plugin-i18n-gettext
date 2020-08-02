@@ -93,8 +93,8 @@
       {%- for moment in moments -%}
         <div class="row">
           <div class="col-2"><b>{{ moment.format }}</b></div>
-          <div class="col-5">{{ _d(moment.format, page.date, 'UTC') }}</div>
-          <div class="col-5">{% _d locale, moment.format, page.date, 'Asia/Bangkok' %}</div>
+          <div class="col-5">{{ _d(moment.format, '1596319020000', 'UTC') }}</div>
+          <div class="col-5">{% _d locale, moment.format, '1596319020000', 'Asia/Bangkok' %}</div>
         </div>
       {%- endfor -%}
     </div>
