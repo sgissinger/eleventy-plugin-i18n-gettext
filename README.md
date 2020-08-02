@@ -153,7 +153,7 @@ By default, `gettext-parser` is configured to parse `messages.po` text files. Fo
 ### `javascriptMessages`
 Type: `string` | Default: `messages.js`
 
-Name of the file where this plugin stores translation keys found in code source files.
+Name of the file where this plugin stores translation keys found in code source files. It's a path relative to `localesDirectory`.
 
 ### `tokenFilePatterns`
 Type: `string[]` | Default: `['src/**/*.njk', 'src/**/*.js']`
