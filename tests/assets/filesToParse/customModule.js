@@ -1,10 +1,8 @@
 'use strict'
 
 module.exports = () => {
-    let html = '<div class="card"><div class="card-body">'
+    const one = i18n._(locale, 'Banana (javascript)')
+    const two = i18n._n(locale, 'This fruit is excellent. (javascript)', 'These fruits are excellent. (javascript)', fruit.count)
 
-    html += `<h4 class="card-title">${i18n._(locale, 'Banana')}</h4>`
-    html += `<div class="card-text">${i18n._n(locale, 'This fruit is excellent.', 'These fruits are excellent.', fruit.count)}</div>`
-
-    return html + '</div></div>'
+    return one + two
 }

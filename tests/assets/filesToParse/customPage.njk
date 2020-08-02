@@ -17,18 +17,18 @@
 
       <div class="row">
         <div class="col-3"><b>Template content</b></div>
-        <div class="col-4">{{ _('Click on the fruit to see more details.') }}</div>
-        <div class="col-4">{% _ locale, 'Click on the fruit to see more details.' %}</div>
+        <div class="col-4">{{ _('Click on the fruit to see more details. (function)') }}</div>
+        <div class="col-4">{% _ locale, 'Click on the fruit to see more details. (shortcode)' %}</div>
       </div>
       <div class="row">
         <div class="col-3"><b>Template content pluralized</b></div>
-        <div class="col-4">{{ _n('This fruit is excellent.', 'These fruits are excellent.', fruit.count) }}</div>
-        <div class="col-4">{% _n locale, 'This fruit is excellent.', 'These fruits are excellent.', fruit.count %}</div>
+        <div class="col-4">{{ _n('This fruit is excellent. (function)', 'These fruits are excellent. (function)', fruit.count) }}</div>
+        <div class="col-4">{% _n locale, 'This fruit is excellent. (shortcode)', 'These fruits are excellent. (shortcode)', fruit.count %}</div>
       </div>
       <div class="row">
         <div class="col-3"><b>Template content with text replacment</b></div>
-        <div class="col-4">{{ _('The %s keeps the doctor away.', _(fruit.name) | lower) }}</div>
-        <div class="col-4">{% _ locale, 'The %s keeps the doctor away.', _(fruit.name) | lower %}</div>
+        <div class="col-4">{{ _('The %s keeps the doctor away. (function)', _(fruit.name) | lower) }}</div>
+        <div class="col-4">{% _ locale, 'The %s keeps the doctor away. (shortcode)', _(fruit.name) | lower %}</div>
       </div>
       <div class="row">
         <div class="col-12"><hr/></div>
@@ -41,21 +41,21 @@
       <div class="row">
         <div class="col-3"><b>Data content pluralized with text replacment</b></div>
         {%- set fruity = _n(fruit.color + ' ' + fruit.name | lower, fruit.color + ' ' + fruit.plural | lower, fruit.count) -%}
-        <div class="col-4">{{ _('We currently have %d %s in stock.', fruit.count, fruity | lower) }}</div>
-        <div class="col-4">{% _ locale, 'We currently have %d %s in stock.', fruit.count, fruity | lower %}</div>
+        <div class="col-4">{{ _('We currently have %d %s in stock. (function)', fruit.count, fruity | lower) }}</div>
+        <div class="col-4">{% _ locale, 'We currently have %d %s in stock. (shortcode)', fruit.count, fruity | lower %}</div>
       </div>
       <div class="row">
         <div class="col-12"><hr/></div>
       </div>
       <div class="row">
         <div class="col-3"><b>String interpolation</b></div>
-        <div class="col-4">{{ _i('The ${name} keeps the doctor away (${count}).', { name: _(fruit.name) | lower, count: fruit.count }) }}</div>
-        <div class="col-4">{% _i locale, 'The ${name} keeps the doctor away (${count}).', { count: fruit.count, name: _(fruit.name) | lower } %}</div>
+        <div class="col-4">{{ _i('The ${name} keeps the doctor away (${count}). (function)', { name: _(fruit.name) | lower, count: fruit.count }) }}</div>
+        <div class="col-4">{% _i locale, 'The ${name} keeps the doctor away (${count}). (shortcode)', { count: fruit.count, name: _(fruit.name) | lower } %}</div>
       </div>
       <div class="row">
         <div class="col-3"><b>String interpolation pluralized</b></div>
-        <div class="col-4">{{ _ni('This single fruit is excellent.', 'These ${count} fruits are excellent.', fruit.count, { count: fruit.count }) }}</div>
-        <div class="col-4">{% _ni locale, 'This single fruit is excellent.', 'These ${count} fruits are excellent.', fruit.count, { count: fruit.count } %}</div>
+        <div class="col-4">{{ _ni('This single fruit is excellent. (function)', 'These ${count} fruits are excellent. (function)', fruit.count, { count: fruit.count }) }}</div>
+        <div class="col-4">{% _ni locale, 'This single fruit is excellent. (shortcode)', 'These ${count} fruits are excellent. (shortcode)', fruit.count, { count: fruit.count } %}</div>
       </div>
       <div class="row">
         <div class="col-12"><hr/></div>
