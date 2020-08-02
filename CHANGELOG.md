@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Integration tests
 ### Removed
 - Doc folder from npm package
+### Fixed
+- Handle pathPrefix more consistently
 
 ## [1.1.3] - 2020-07-31
 ### Added
@@ -20,7 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.1.2] - 2020-07-31
 ### Fixed
-- Handle path prefix
+- pathPrefix supported
 
 ## [1.1.1] - 2020-07-31
 ### Added
