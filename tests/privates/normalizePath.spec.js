@@ -19,7 +19,7 @@ describe('normalizePath', () => {
     it('should normalize path when pathPrefix is /blog/', () => {
         i18n.pathPrefix = '/blog/'
 
-        const expected = 'post-12345'
+        const expected = '/post-12345'
         const actual = i18n.normalizePath('/blog/post-12345')
 
         actual.should.be.equal(expected)

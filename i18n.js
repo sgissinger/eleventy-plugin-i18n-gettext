@@ -40,7 +40,7 @@ module.exports.normalizePath = path => {
     }
 
     if( this.pathPrefix !== '/' ) {
-        return path.replace(this.pathPrefix, '')
+        return path.replace(this.pathPrefix, '/')
     }
     return path
 }
