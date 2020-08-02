@@ -8,7 +8,6 @@ chai.use(chaiFiles)
 
 const file = chaiFiles.file
 const path = require('path')
-const fs = require('fs')
 
 chai.should()
 
@@ -28,7 +27,5 @@ describe('generateMessageFile', () => {
         const expected = path.join(process.cwd(), 'tests/assets/locales', 'expected-messages.js')
 
         file(actual).should.equal(file(expected))
-
-        fs.unlinkSync(actual)
     })
 })

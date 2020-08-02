@@ -4,3 +4,4 @@ dist/
 node_modules/
 *.tgz
 .DS_Store
+test-messages.js
