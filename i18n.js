@@ -155,24 +155,24 @@ module.exports.enhance11tydata = (obj, locale, dir = 'ltr') => {
 
     obj.lang = parsedLocale.lang
     obj.langDir = dir
-    obj.locale = parsedLocale.locale
+    obj.locale = locale
     obj._ = (key, ...args) => {
-        return this._(parsedLocale.locale, key, ...args)
+        return this._(locale, key, ...args)
     }
     obj._i = (key, obj) => {
-        return this._i(parsedLocale.locale, key, obj)
+        return this._i(locale, key, obj)
     }
     obj._n = (singular, plural, count, ...args) => {
-        return this._n(parsedLocale.locale, singular, plural, count, ...args)
+        return this._n(locale, singular, plural, count, ...args)
     }
     obj._ni = (singular, plural, count, obj) => {
-        return this._ni(parsedLocale.locale, singular, plural, count, obj)
+        return this._ni(locale, singular, plural, count, obj)
     }
     obj._d = (format, date, timezone) => {
-        return this._d(parsedLocale.locale, format, date, timezone)
+        return this._d(locale, format, date, timezone)
     }
     obj._p = (basePath) => {
-        return this._p(parsedLocale.locale, basePath)
+        return this._p(locale, basePath)
     }
 
     return obj
