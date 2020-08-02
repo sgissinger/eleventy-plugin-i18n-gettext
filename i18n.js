@@ -35,7 +35,7 @@ module.exports.normalizePath = path => {
     if( this.pathPrefix === undefined ) {
         // Works when pathPrefix is configured in .eleventy.js file
         // Does not work when pathPrefix is given with commandline `--pathprefix=eleventy-base-blog`
-        const projectConfig = require('@11ty/eleventy/src/Config').getConfig();
+        const projectConfig = require('@11ty/eleventy/src/Config').getConfig()
         this.pathPrefix = projectConfig.pathPrefix
     }
 
