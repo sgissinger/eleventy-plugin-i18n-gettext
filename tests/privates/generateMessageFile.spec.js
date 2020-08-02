@@ -13,7 +13,7 @@ const fs = require('fs')
 chai.should()
 
 describe('generateMessageFile', () => {
-    beforeEach(() => {
+    it('should create test-messages.js', () => {
         i18n.init({
             localesDirectory: 'tests/assets/locales',
             tokenFilePatterns: [
@@ -22,9 +22,6 @@ describe('generateMessageFile', () => {
             ],
             javascriptMessages: 'test-messages.js'
         })
-    })
-
-    it('should create test-messages.js', () => {
         i18n.generateMessageFile()
 
         const actual = path.join(process.cwd(), 'tests/assets/locales', 'test-messages.js')
