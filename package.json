@@ -34,6 +34,7 @@
   "devDependencies": {
     "jest": "^26.2.2",
     "chai": "^4.2.0",
+    "chai-files": "^1.4.0",
     "sinon": "^9.0.2"
   },
   "jest": {
