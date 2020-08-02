@@ -12,14 +12,14 @@ describe('_d', () => {
         })
     })
 
-    it('should format a Date object to Asia/Bangkok time', () => {
+    it('should format a timestamp integer to Asia/Bangkok time', () => {
         const expected = 'dimanche 2 août 2020 04:57'
-        const actual = i18n._d('fr-fr', 'LLLL', new Date(1596319020000), 'Asia/Bangkok')
+        const actual = i18n._d('fr-fr', 'LLLL', 1596319020000, 'Asia/Bangkok')
 
         actual.should.be.equal(expected)
     })
 
-    it('should format a Date object to UTC time', () => {
+    it('should format a javascript Date object to UTC time', () => {
         const expected = 'samedi 1 août 2020 21:57'
         const actual = i18n._d('fr-fr', 'LLLL', new Date(1596319020000), 'UTC')
 
@@ -37,7 +37,7 @@ describe('_d', () => {
         const eleventyData = i18n.enhance11tydata({}, 'fr-fr')
 
         const expected = '1 août 2020'
-        const actual = eleventyData._d('LL', new Date(1596319020000))
+        const actual = eleventyData._d('LL', 1596319020000)
 
         actual.should.be.equal(expected)
     })
