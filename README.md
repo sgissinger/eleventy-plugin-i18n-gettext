@@ -186,7 +186,9 @@ Attaches additional properties and methods to `obj` and returns it:
 | Property | `langDir`
 | Property | `locale`
 | Method   | `_(key, ...args)`
+| Method   | `_i(key, obj)`
 | Method   | `_n(singular, plural, count, ...args)`
+| Method   | `_ni(singular, plural, count, obj)`
 | Method   | `_d(format, date)`
 | Method   | `_p(basePath)`
 
