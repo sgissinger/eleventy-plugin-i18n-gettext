@@ -15,10 +15,10 @@ chai.should()
 describe('generateMessageFile', () => {
     beforeEach(() => {
         i18n.init({
-            localesDirectory: 'tests/locales',
+            localesDirectory: 'tests/assets/locales',
             tokenFilePatterns: [
-              'tests/src/**/*.njk',
-              'tests/src/**/*.js'
+              'tests/assets/filesToParse/**/*.njk',
+              'tests/assets/filesToParse/**/*.js'
             ],
             javascriptMessages: 'test-messages.js'
         })
@@ -27,8 +27,8 @@ describe('generateMessageFile', () => {
     it('should create test-messages.js', () => {
         i18n.generateMessageFile()
 
-        const actual = path.join(process.cwd(), 'tests/locales', 'test-messages.js')
-        const expected = path.join(process.cwd(), 'tests/locales', 'expected-messages.js')
+        const actual = path.join(process.cwd(), 'tests/assets/locales', 'test-messages.js')
+        const expected = path.join(process.cwd(), 'tests/assets/locales', 'expected-messages.js')
 
         file(actual).should.equal(file(expected))
 

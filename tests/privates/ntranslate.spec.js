@@ -8,7 +8,7 @@ chai.should()
 describe('ntranslate', () => {
     beforeEach(() => {
         i18n.init({
-            localesDirectory: 'tests/locales'
+            localesDirectory: 'tests/assets/locales'
         })
     })
 
