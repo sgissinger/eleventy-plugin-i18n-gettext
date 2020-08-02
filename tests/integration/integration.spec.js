@@ -18,14 +18,15 @@ describe('integration', () => {
         process.execSync('npm run build', { cwd: __dirname } )
     })
 
-    it('should compare built files count', () => {
+    it('should compare built files names', () => {
         const expectedDistDir = path.join(__dirname, 'expected-dist')
-        const expected = glob.sync(path.join(expectedDistDir, '**/*.html')).length
-        
-        const actualDistDir = path.join(__dirname, 'dist')
-        const actual = glob.sync(path.join(actualDistDir, '**/*.html')).length
+        const expected = glob.sync(path.join(expectedDistDir, '**/*.html'))
+            .map(fileName => fileName.replace('expected-dist', 'dist'))
 
-        actual.should.be.equal(expected)
+        const actualDistDir = path.join(__dirname, 'dist')
+        const actual = glob.sync(path.join(actualDistDir, '**/*.html'))
+
+        actual.should.be.deep.equal(expected)
     })
 
     it('should compare built files content', () => {
