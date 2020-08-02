@@ -29,7 +29,8 @@
     "gettext-parser": "^4.0.4",
     "printf": "^0.5.3",
     "glob": "^7.1.6",
-    "moment": "^2.27.0"
+    "moment": "^2.27.0",
+    "moment-timezone": "^0.5.31"
   },
   "devDependencies": {
     "jest": "^26.2.2",

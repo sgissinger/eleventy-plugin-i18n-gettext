@@ -6,7 +6,7 @@ const glob = require('glob')
 const Gettext = require('node-gettext')
 const parser = require('gettext-parser')
 const printf = require('printf')
-const moment = require('moment')
+const moment = require('moment'); require('moment-timezone')
 const dynamic_interpolation = require('./i18n-dynamic-interpolation')
 
 module.exports.defaultConfiguration = {
@@ -118,9 +118,12 @@ module.exports._ni = (locale, singular, plural, count, obj) => {
     return translation
 }
 
-module.exports._d = (locale, format, date) => {
+module.exports._d = (locale, format, date, timezone) => {
     this.setLocale(locale)
 
+    if( timezone ) {
+        return moment(date).tz(timezone).format(format)
+    }
     return moment(date).format(format)
 }
 
@@ -165,8 +168,8 @@ module.exports.enhance11tydata = (obj, locale, dir = 'ltr') => {
     obj._ni = (singular, plural, count, obj) => {
         return this._ni(parsedLocale.locale, singular, plural, count, obj)
     }
-    obj._d = (format, date) => {
-        return this._d(parsedLocale.locale, format, date)
+    obj._d = (format, date, timezone) => {
+        return this._d(parsedLocale.locale, format, date, timezone)
     }
     obj._p = (basePath) => {
         return this._p(parsedLocale.locale, basePath)

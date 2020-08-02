@@ -11,6 +11,7 @@ Gettext is commonly used in Linux C and WordPress worlds. It comes with a few ha
 In addition to Gettext features, this plugin:
 - Integrates [`printf()`](https://www.npmjs.com/package/printf) for enhanced string formatting capabilities
 - Integrates [`moment.js`](https://momentjs.com) for date and time localization
+- Integrates [Moment Timezone Plugin](https://momentjs.com/timezone/docs/) for timezone management
 
 
 ## Table of content
@@ -32,7 +33,7 @@ In addition to Gettext features, this plugin:
   - [`i18n._i(locale, key, obj)`](#i18n_ilocale-key-obj)
   - [`i18n._n(locale, singular, plural, count, ...args)`](#i18n_nlocale-singular-plural-count-args)
   - [`i18n._ni(locale, singular, plural, count, obj)`](#i18n_nilocale-singular-plural-count-obj)
-  - [`i18n._d(locale, format, date)`](#i18n_dlocale-format-date)
+  - [`i18n._d(locale, format, date, timezone?)`](#i18n_dlocale-format-date-timezone)
   - [`i18n._p(locale, basePath)`](#i18n_plocale-basePath)
 - [API Usage](#api-usage)
   - [With functions in templates](#with-functions-in-templates)
@@ -189,7 +190,7 @@ Attaches additional properties and methods to `obj` and returns it:
 | Method   | `_i(key, obj)`
 | Method   | `_n(singular, plural, count, ...args)`
 | Method   | `_ni(singular, plural, count, obj)`
-| Method   | `_d(format, date)`
+| Method   | `_d(format, date, timezone?)`
 | Method   | `_p(basePath)`
 
 `lang` and `langDir` properties are meant to be used in the `<html>` tag.
@@ -316,7 +317,7 @@ Type: `obj`
 A simple object which properties will be used as variables for [`template literals/string interpolation`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals).
 
 
-### `i18n._d(locale, format, date)`
+### `i18n._d(locale, format, date, timezone?)`
 Returns: `string`
 
 Return the localized form of a date using [`moment.js`](https://momentjs.com/docs/#/displaying/format/) localized formats.
@@ -349,6 +350,10 @@ Type: `string`
 
 Any type of string that `moment()` can use.
 
+#### timezone
+Type: `string`
+
+A timezone string listed in [tz database time zones](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
 
 ### `i18n._p(locale, basePath)`
 Returns: `string`
@@ -487,6 +492,7 @@ But when `pathPrefix` is set by the commandline `eleventy --pathprefix=eleventy-
 - [Language-COUNTRY codes](http://www.lingoes.net/en/translator/langcode.htm)
 - [ISO 639-1 Language codes](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)
 - [ISO 3166-1 Country codes](https://en.wikipedia.org/wiki/ISO_3166-1)
+- [List of tz database time zones](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
 
 
 ## Credits

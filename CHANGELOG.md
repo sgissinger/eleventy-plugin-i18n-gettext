@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ⚠️: Was not SemVer up to version 1.1.3, but is being SemVer from version 1.2.0.
 
+## [Unreleased]
+### Added
+- Timezone support parameter for dates
+### Changed
+- Locale parsing handled in a single method
+### Fixed
+- Potential bugfix with custom localeRegex management in enhance11tydata
+
 ## [1.2.0] - 2020-08-02
 ### Added
 - Unit tests
