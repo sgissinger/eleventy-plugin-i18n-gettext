@@ -216,16 +216,17 @@ module.exports.loadTranslations = () => {
 
 module.exports.generateMessageFile = () => {
     // These regex can find multiples occurences on the same line due to ? lazy quantifier
+    const baseRegex = "i?\\(*\\s*(?:locale\\s*,\\s*)?'.+?'"
 
     // _('singular'             _i('singular'
     // _(locale, 'singular'     _i(locale, 'singular'
     // _ locale, 'singular'     _i locale, 'singular'
-    const singular = /_i?\(*\s*(?:locale\s*,\s*)?'.+?'/g
+    const singular = new RegExp(`_${baseRegex}`, 'g')
 
     // _n('singular', 'plural'             _ni('singular', 'plural'
     // _n(locale, 'singular', 'plural'     _ni(locale, 'singular', 'plural'
     // _n locale, 'singular', 'plural'     _ni locale, 'singular', 'plural'
-    const plural = /_ni?\(*\s*(?:locale\s*,\s*)?'.+?',\s*.*?'.+?'/g
+    const plural = new RegExp(`_n${baseRegex}\\s*,\\s*?'.+?'`, 'g')
 
     const lines = this.configuration.tokenFilePatterns
         .map(tokenFilePattern => {
