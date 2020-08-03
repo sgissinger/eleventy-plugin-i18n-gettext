@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ⚠️: Was not SemVer up to version 1.1.3, but is being SemVer from version 1.2.0.
 
+## [Unreleased]
+### Fixed
+- Double quotes are also parsed as string delimiters
+
 ## [1.3.2] - 2020-08-03
 ### Fixed
 - Shortcodes and javascript are now parsed correctly to create messages.js file
