@@ -1,102 +1,40 @@
-<div class="jumbotron">
-  <h1>{{ _('Fruits') }}{% if eatSnails %} 🐌{% endif %}</h1>
-</div>
+<div>{{ _('Fruits') }} {% _ locale,'Vegetables' %} {{ _( 'Sweets (soooo   goooood!)') }}</div>
+<div>{% _  locale, 'Hammer with   a wooden handle' %} {{ _(   'Red saw') }} {% _   locale,   'Screwdriver' %}</div>
+<div>{{ _ locale, 'Hammer with a %s', 'wooden handle' }}</div>
+<div>{{ _ locale, 'Hammer with a ${property}', { property: 'wooden handle' } }}</div>
 
-{%- for fruit in fruits -%}
-<div class="card">
-  <div class="card-body">
-    <a href="{{ _p(fruit.path) | url }}">
-      <h4 class="card-title">{{ _(fruit.name) }}</h4>
-    </a>
-    <div class="card-text">
-      <div class="row">
-        <div class="col-3"></div>
-        <div class="col-4"><b>Method calls</b></div>
-        <div class="col-4"><b>Shortcodes</b></div>
-      </div>
+<a href="{{ _p(fruit.path) | url }}">
+  <h4>{{ _(fruit.name) }}</h4>
+</a>
+<div>{{ _('Click on the fruit to see more details. (function)') }}</div>
+<div>{% _ locale, 'Click on the fruit to see more details. (shortcode)' %}</div>
 
-      <div class="row">
-        <div class="col-3"><b>Template content</b></div>
-        <div class="col-4">{{ _('Click on the fruit to see more details. (function)') }}</div>
-        <div class="col-4">{% _ locale, 'Click on the fruit to see more details. (shortcode)' %}</div>
-      </div>
-      <div class="row">
-        <div class="col-3"><b>Template content pluralized</b></div>
-        <div class="col-4">{% _n locale, 'This fruit is excellent. (shortcode)', 'These fruits are excellent. (shortcode)', fruit.count %} {{ _n('This fruit is excellent. (function)', 'These fruits are excellent. (function)', fruit.count) }}</div>
-        <div class="col-4"></div>
-      </div>
-      <div class="row">
-        <div class="col-3"><b>Template content with text replacment</b></div>
-        <div class="col-4">{{ _('The %s keeps the doctor away. (function)', _(fruit.name) | lower) }}</div>
-        <div class="col-4">{% _ locale, 'The %s keeps the doctor away. (shortcode)', _(fruit.name) | lower %}</div>
-      </div>
-      <div class="row">
-        <div class="col-12"><hr/></div>
-      </div>
-      <div class="row">
-        <div class="col-3"><b>Data content</b></div>
-        <div class="col-4">{{ _(fruit.color + ' ' + fruit.name | lower) }}</div>
-        <div class="col-4">{% _ locale, fruit.color + ' ' + fruit.name | lower %}</div>
-      </div>
-      <div class="row">
-        <div class="col-3"><b>Data content pluralized with text replacment</b></div>
-        {%- set fruity = _n(fruit.color + ' ' + fruit.name | lower, fruit.color + ' ' + fruit.plural | lower, fruit.count) -%}
-        <div class="col-4">{{ _('We currently have %d %s in stock. (function)', fruit.count, fruity | lower) }}</div>
-        <div class="col-4">{% _ locale, 'We currently have %d %s in stock. (shortcode)', fruit.count, fruity | lower %}</div>
-      </div>
-      <div class="row">
-        <div class="col-12"><hr/></div>
-      </div>
-      <div class="row">
-        <div class="col-3"><b>String interpolation</b></div>
-        <div class="col-4">{{ _i('The ${name} keeps the doctor away (${count}). (function)', { name: _(fruit.name) | lower, count: fruit.count }) }}</div>
-        <div class="col-4">{% _i locale, 'The ${name} keeps the doctor away (${count}). (shortcode)', { count: fruit.count, name: _(fruit.name) | lower } %}</div>
-      </div>
-      <div class="row">
-        <div class="col-3"><b>String interpolation pluralized</b></div>
-        <div class="col-4">{{ _ni('This single fruit is excellent. (function)', 'These ${count} fruits are excellent. (function)', fruit.count, { count: fruit.count }) }}</div>
-        <div class="col-4">{% _ni locale, 'This single fruit is excellent. (shortcode)', 'These ${count} fruits are excellent. (shortcode)', fruit.count, { count: fruit.count } %}</div>
-      </div>
-      <div class="row">
-        <div class="col-12"><hr/></div>
-      </div>
-      <div class="row">
-        <div class="col-3"><b>Localize URL</b></div>
-        <div class="col-4">{{ _p('/index.html') | url }}</div>
-        <div class="col-4">{% _p locale, '/index.html' | url %}</div>
-      </div>
-      <div class="row">
-        <div class="col-3"><b>Relocalize /pt-pt/index.html to fr-fr</b></div>
-        <div class="col-4"></div>
-        <div class="col-4">{% relocalizePath 'fr-fr', '/pt-pt/index.html' %}</div>
-      </div>
-    </div>
-  </div>
-</div>
-{%- endfor -%}
+<div>{% _n locale, 'This fruit is excellent. (shortcode)', 'These fruits are excellent. (shortcode)', fruit.count %} {{ _n('This fruit is excellent. (function)', 'These fruits are excellent. (function)', fruit.count) }}</div>
 
-<div class="jumbotron">
-  <h1>{{ _('Dates and times (function)') }} {% _ locale, 'Dates and times (shortcode)' %}</h1>
-</div>
+<div>{{ _('The %s keeps the doctor away. (function)', _(fruit.name) | lower) }}</div>
+<div>{% _ locale, 'The %s keeps the doctor away. (shortcode)', _(fruit.name) | lower %}</div>
 
-<div class="card">
-  <div class="card-body">
-    <a target="_blank" href="https://momentjs.com/docs/#/displaying/format">
-      <h4 class="card-title">{{ _('Moment.js localized formats') }}</h4>
-    </a>
-    <div class="card-text">
-      <div class="row">
-        <div class="col-2"></div>
-        <div class="col-5"><b>Method calls</b></div>
-        <div class="col-5"><b>Shortcodes</b></div>
-      </div>
-      {%- for moment in moments -%}
-        <div class="row">
-          <div class="col-2"><b>{{ moment.format }}</b></div>
-          <div class="col-5">{{ _d(moment.format, page.date) }}</div>
-          <div class="col-5">{% _d locale, moment.format, page.date %}</div>
-        </div>
-      {%- endfor -%}
-    </div>
-  </div>
-</div>
+<div>{{ _(fruit.color + ' ' + fruit.name | lower) }}</div>
+<div>{% _ locale, fruit.color + ' ' + fruit.name | lower %}</div>
+
+{%- set fruity = _n(fruit.color + ' ' + fruit.name | lower, fruit.color + ' ' + fruit.plural | lower, fruit.count) -%}
+<div>{{ _('We currently have %d %s in stock. (function)', fruit.count, fruity | lower) }}</div>
+<div>{% _ locale, 'We currently have %d %s in stock. (shortcode)', fruit.count, fruity | lower %}</div>
+
+<div>{{ _i('The ${name} keeps the doctor away (${count}). (function)', { name: _(fruit.name) | lower, count: fruit.count }) }}</div>
+<div>{% _i locale, 'The ${name} keeps the doctor away (${count}). (shortcode)', { count: fruit.count, name: _(fruit.name) | lower } %}</div>
+
+<div>{{ _ni('This single fruit is excellent. (function)', 'These ${count} fruits are excellent. (function)', fruit.count, { count: fruit.count }) }}</div>
+<div>{% _ni locale, 'This single fruit is excellent. (shortcode)', 'These ${count} fruits are excellent. (shortcode)', fruit.count, { count: fruit.count } %}</div>
+
+<div>{{ _p('/index.html') | url }}</div>
+<div>{% _p locale, '/index.html' %}</div>
+
+<div>{% relocalizePath 'fr-fr', '/pt-pt/index.html' %}</div>
+
+<div>{{ _('Dates and times (function)') }} {% _ locale, 'Dates and times (shortcode)' %}</div>
+<div>{{ _('Moment.js localized formats') }}</div>
+
+<div>{{ moment.format }}</div>
+<div>{{ _d(moment.format, page.date) }}</div>
+<div>{% _d locale, moment.format, page.date %}</div>
