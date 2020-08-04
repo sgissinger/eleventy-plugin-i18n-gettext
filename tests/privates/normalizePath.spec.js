@@ -2,7 +2,7 @@
 
 const chai = require('chai')
 const sinon = require('sinon')
-const i18n = require('../../i18n')
+const i18n = require('../../src/i18n')
 
 chai.should()
 

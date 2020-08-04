@@ -1,7 +1,7 @@
 'use strict'
 
 const chai = require('chai')
-const i18n = require('../../i18n')
+const i18n = require('../../src/i18n')
 
 const chaiFiles = require('chai-files')
 chai.use(chaiFiles)

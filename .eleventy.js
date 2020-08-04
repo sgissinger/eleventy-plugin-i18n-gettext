@@ -1,6 +1,6 @@
 'use strict'
 
-const i18n = require('./i18n')
+const i18n = require('./src/i18n')
 
 module.exports = (eleventyConfig, options = {}) => {
     i18n.init(options)

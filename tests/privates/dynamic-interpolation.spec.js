@@ -1,7 +1,7 @@
 'use strict'
 
 const chai = require('chai')
-const dynamic_interpolation = require('../../i18n-dynamic-interpolation')
+const dynamic_interpolation = require('../../src/i18n-dynamic-interpolation')
 
 chai.should()
 
