@@ -216,18 +216,18 @@ module.exports.loadTranslations = () => {
 
 module.exports.generateMessageFile = () => {
     // This regex can find multiples occurences on the same line due to ? lazy quantifier
-    const stringRegex = "['\"].+?['\"]"
-    const baseRegex = "i?\\(?\\s*(?:locale\\s*,\\s*)?"
+    const stringRegex = "(?:'.+?'|\".+?\")"
+    const baseRegex = "i?\\(?\\s*(?:locale\\s*,)?"
 
     // _('singular'             _i('singular'
     // _(locale, 'singular'     _i(locale, 'singular'
     // _ locale, 'singular'     _i locale, 'singular'
-    const singular = new RegExp(`_${baseRegex}${stringRegex}`, 'g')
+    const singular = new RegExp(`_${baseRegex}\\s*${stringRegex}`, 'g')
 
     // _n('singular', 'plural'             _ni('singular', 'plural'
     // _n(locale, 'singular', 'plural'     _ni(locale, 'singular', 'plural'
     // _n locale, 'singular', 'plural'     _ni locale, 'singular', 'plural'
-    const plural = new RegExp(`_n${baseRegex}${stringRegex}\\s*,\\s*${stringRegex}`, 'g')
+    const plural = new RegExp(`_n${baseRegex}\\s*${stringRegex}\\s*,\\s*${stringRegex}`, 'g')
 
     const lines = this.configuration.tokenFilePatterns
         .map(tokenFilePattern => {
@@ -251,10 +251,8 @@ module.exports.generateMessageFile = () => {
             return match
                 // remove locale parameter
                 .replace(/\(?\s*locale\s*,\s*/, '(')
-                // replace double quotes with single quotes
-                .replace(/"/g, '\'')
-                // remove spaces in front of singles quotes
-                .replace(/\s+'/g, '\'') + ')'
+                // remove spaces in front of quotes
+                .replace(/\s+(["'])/g, '$1') + ')'
         })
         .filter((match, index, matches) => matches.indexOf(match) == index) // distinct
 

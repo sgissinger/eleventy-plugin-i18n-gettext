@@ -1,7 +1,7 @@
 <div>{{ _('Fruits') }} {% _ locale,'Vegetables' %} {{ _( 'Sweets (soooo   goooood!)') }}</div>
-<div>{% _  locale, 'Hammer with   a wooden handle' %} {{ _(   'Red saw') }} {% _   locale,   'Screwdriver' %}</div>
+<div>{% _  locale, 'Hammer with "  a wooden handle' %} {{ _(   'Red saw') }} {% _   locale,   'Screwdriver' %}</div>
 <div>{{ _ locale, 'Hammer with a %s', 'wooden handle' }}</div>
-<div>{{ _ locale, 'Hammer with a ${property}', { property: 'wooden handle' } }}</div>
+<div>{{ _ locale, "Hammer with a' ${property}", { property: 'wooden handle' } }}</div>
 
 <a href="{{ _p(fruit.path) | url }}">
   <h4>{{ _(fruit.name) }}</h4>

@@ -8,7 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Fixed
-- Double quotes are also parsed as string delimiters
+- Double quotes are parsed as string delimiters
+- Single quotes in keys accepted when surrounded by double quotes
+- Double quotes in keys accepted when surrounded by single quotes
 
 ## [1.3.2] - 2020-08-03
 ### Fixed
