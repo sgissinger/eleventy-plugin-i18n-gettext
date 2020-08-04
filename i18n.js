@@ -229,11 +229,18 @@ module.exports.generateMessageFile = () => {
     // _n locale, 'singular', 'plural'     _ni locale, 'singular', 'plural'
     const plural = new RegExp(`_n${baseRegex}\\s*${stringRegex}\\s*,\\s*${stringRegex}`, 'g')
 
+    // Node 10.x backward compatibility
+    if( !Array.prototype.flat ) {
+        Array.prototype.flat = function() {
+            return [].concat.apply([], this);
+        }
+    }
+
     const lines = this.configuration.tokenFilePatterns
         .map(tokenFilePattern => {
             return glob.sync(path.join(process.cwd(), tokenFilePattern))
         })
-        .flat(1)
+        .flat()
         .map(filePath => {
             const fileContent = fs.readFileSync(filePath).toString()
             const singularMatches = fileContent.match(singular)
@@ -245,7 +252,7 @@ module.exports.generateMessageFile = () => {
 
             return [].concat(singularMatches, pluralMatches)
         })
-        .flat(1)
+        .flat()
         .filter(match => match) // not null
         .map(match => {
             return match
