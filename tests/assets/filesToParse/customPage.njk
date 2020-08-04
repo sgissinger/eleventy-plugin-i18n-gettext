@@ -1,7 +1,7 @@
 <div>{{ _('Fruits') }} {% _ locale,'Vegetables' %} {{ _( 'Sweets (soooo   goooood!)') }}</div>
-<div>{% _  locale, 'Hammer with "  a wooden handle' %} {{ _(   'Red saw') }} {% _   locale,   'Screwdriver' %}</div>
+<div>{% _  locale,   'Hammer with  "  a wooden handle' %} {{ _(   'Red saw') }} {% _   locale,   'Screwdriver' %}</div>
 <div>{{ _ locale, 'Hammer with a %s', 'wooden handle' }}</div>
-<div>{{ _ locale, "Hammer with a' ${property}", { property: 'wooden handle' } }}</div>
+<div>{{ _ locale,  "Hammer with   'a' ${property}", { property: 'wooden handle' } }}</div>
 
 <a href="{{ _p(fruit.path) | url }}">
   <h4>{{ _(fruit.name) }}</h4>
@@ -24,8 +24,8 @@
 <div>{{ _i('The ${name} keeps the doctor away (${count}). (function)', { name: _(fruit.name) | lower, count: fruit.count }) }}</div>
 <div>{% _i locale, 'The ${name} keeps the doctor away (${count}). (shortcode)', { count: fruit.count, name: _(fruit.name) | lower } %}</div>
 
-<div>{{ _ni('This single fruit is excellent. (function)', 'These ${count} fruits are excellent. (function)', fruit.count, { count: fruit.count }) }}</div>
-<div>{% _ni locale, 'This single fruit is excellent. (shortcode)', 'These ${count} fruits are excellent. (shortcode)', fruit.count, { count: fruit.count } %}</div>
+<div>{{ _ni('This single fruit is excellent. (function)', 'These ${count} fruits are   " excellent. (function)', fruit.count, { count: fruit.count }) }}</div>
+<div>{% _ni locale, 'This single fruit is excellent. (shortcode)', "These ${count} fruits  ' are excellent. (shortcode)", fruit.count, { count: fruit.count } %}</div>
 
 <div>{{ _p('/index.html') | url }}</div>
 <div>{% _p locale, '/index.html' %}</div>

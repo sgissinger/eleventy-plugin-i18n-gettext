@@ -216,18 +216,18 @@ module.exports.loadTranslations = () => {
 
 module.exports.generateMessageFile = () => {
     // This regex can find multiples occurences on the same line due to ? lazy quantifier
-    const stringRegex = "(?:'.+?'|\".+?\")"
-    const baseRegex = "\\(?\\s*(?:locale\\s*,)?"
+    const stringRegExp = "(?:'.+?'|\".+?\")"
+    const localeRegExp = "\\(?\\s*(?:locale\\s*,)?"
 
     // _('singular'             _i('singular'
     // _(locale, 'singular'     _i(locale, 'singular'
     // _ locale, 'singular'     _i locale, 'singular'
-    const singular = new RegExp(`_i?${baseRegex}\\s*${stringRegex}`, 'g')
+    const singular = new RegExp(`_i?${localeRegExp}\\s*${stringRegExp}`, 'g')
 
     // _n('singular', 'plural'             _ni('singular', 'plural'
     // _n(locale, 'singular', 'plural'     _ni(locale, 'singular', 'plural'
     // _n locale, 'singular', 'plural'     _ni locale, 'singular', 'plural'
-    const plural = new RegExp(`_ni?${baseRegex}\\s*${stringRegex}\\s*,\\s*${stringRegex}`, 'g')
+    const plural = new RegExp(`_ni?${localeRegExp}\\s*${stringRegExp}\\s*,\\s*${stringRegExp}`, 'g')
 
     // Node 10.x backward compatibility
     if( !Array.prototype.flat ) {
@@ -256,10 +256,8 @@ module.exports.generateMessageFile = () => {
         .filter(match => match) // not null
         .map(match => {
             return match
-                // remove locale parameter
-                .replace(/\(?\s*locale\s*,/, '(')
-                // remove spaces in front of quotes
-                .replace(/\s+(["'])/g, '$1') + ')'
+                .replace(/\(?\s*locale\s*,/, '(')  // remove locale parameter
+                .replace(/([\(,])\s+(["'])/g, '$1$2') + ')' // remove spaces in front of string parameters
         })
         .filter((match, index, matches) => matches.indexOf(match) == index) // distinct
 
