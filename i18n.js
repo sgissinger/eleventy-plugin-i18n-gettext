@@ -230,7 +230,7 @@ module.exports.generateMessageFile = () => {
 
     // Node 10.x backward compatibility
     if( !Array.prototype.flat ) {
-        Array.prototype.flat = () => { return [].concat.apply([], this) }
+        Array.prototype.flat = function() { return [].concat.apply([], this) }
     }
 
     const lines = this.configuration.tokenFilePatterns
