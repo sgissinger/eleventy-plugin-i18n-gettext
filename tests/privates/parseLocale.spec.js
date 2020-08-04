@@ -12,7 +12,6 @@ describe('parseLocale', () => {
     
             const expected = {
                 lang: 'fr',
-                country: 'fr',
                 locale: 'fr-fr'
             }
             const actual = i18n.parseLocale('fr-fr')
@@ -25,7 +24,6 @@ describe('parseLocale', () => {
     
             const expected = {
                 lang: 'fr',
-                country: '',
                 locale: 'fr'
             }
             const actual = i18n.parseLocale('fr')
@@ -50,7 +48,6 @@ describe('parseLocale', () => {
 
             const expected = {
                 lang: 'nl',
-                country: 'be',
                 locale: 'nl-be'
             }
             const actual = i18n.parseLocale('benl')
@@ -65,7 +62,6 @@ describe('parseLocale', () => {
 
             const expected = {
                 lang: 'nl',
-                country: '',
                 locale: 'nl'
             }
             const actual = i18n.parseLocale('nl')

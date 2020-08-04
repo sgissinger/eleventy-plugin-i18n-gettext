@@ -54,7 +54,6 @@ module.exports.parseLocale = locale => {
 
     return {
         lang: match.groups.lang,
-        country: match.groups.country ? match.groups.country : '',
         locale: match.groups.country ? `${match.groups.lang}-${match.groups.country}` : match.groups.lang
     }
 }
@@ -136,7 +135,7 @@ module.exports._p = (locale, basePath) => {
 module.exports.relocalizePath = (targetedLocale, pagePath) => {
     const path = this.normalizePath(pagePath)
 
-    const pathParts = path.split('/').filter(pathPart => pathPart !== '')
+    const pathParts = path.split('/').filter(pathPart => pathPart)
     pathParts[0] = targetedLocale
 
     return `/${pathParts.join('/')}`
@@ -231,9 +230,7 @@ module.exports.generateMessageFile = () => {
 
     // Node 10.x backward compatibility
     if( !Array.prototype.flat ) {
-        Array.prototype.flat = function() {
-            return [].concat.apply([], this);
-        }
+        Array.prototype.flat = () => [].concat.apply([], this)
     }
 
     const lines = this.configuration.tokenFilePatterns
