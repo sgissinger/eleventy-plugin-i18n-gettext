@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ⚠️: Was not SemVer up to version 1.1.3, but is being SemVer from version 1.2.0.
 
-## [Unreleased]
+## [1.3.3] - 2020-08-04
 ### Fixed
 - Double quotes are parsed as string delimiters
 - Single quotes in keys accepted when surrounded by double quotes
