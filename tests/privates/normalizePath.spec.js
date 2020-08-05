@@ -30,9 +30,9 @@ describe('normalizePath', () => {
     it('should call @11ty/eleventy/src/Config.getConfig only once', () => {
         i18n.pathPrefix = undefined
 
-        const eleventyConfig = require('@11ty/eleventy/src/Config')
+        const projectConfig = require('@11ty/eleventy/src/Config')
 
-        const stub = sinon.stub(eleventyConfig, 'getConfig')
+        const stub = sinon.stub(projectConfig, 'getConfig')
             .returns({ pathPrefix: '/blog/' })
 
         i18n.normalizePath('/blog/post-12345')
