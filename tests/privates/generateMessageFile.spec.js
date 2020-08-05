@@ -1,15 +1,13 @@
 'use strict'
 
 const chai = require('chai')
-const i18n = require('../../src/i18n')
-
 const chaiFiles = require('chai-files')
-chai.use(chaiFiles)
-
 const file = chaiFiles.file
 const path = require('path')
+const i18n = require('../../src/i18n')
 
 chai.should()
+chai.use(chaiFiles)
 
 describe('generateMessageFile', () => {
     it('should create test-messages.js', () => {
