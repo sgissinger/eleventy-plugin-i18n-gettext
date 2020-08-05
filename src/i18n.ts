@@ -1,13 +1,14 @@
 import fs from 'fs'
 import path from 'path'
 import glob from 'glob'
-import Gettext from 'node-gettext'
-import parser from 'gettext-parser'
 import printf from 'printf'
 import moment from 'moment-timezone'
 
-import { IConfiguration } from './IConfiguration'
-import { ILocaleInformation } from './ILocaleInformation'
+const Gettext = require('node-gettext')
+const parser = require('gettext-parser')
+
+import type { IConfiguration } from './IConfiguration'
+import type { ILocaleInformation } from './ILocaleInformation'
 
 class i18n {
     private defaultConfiguration: IConfiguration = {
@@ -20,9 +21,9 @@ class i18n {
         ],
         localeRegex: /^(?<lang>.{2})(?:-(?<country>.{2}))*$/
     }
-    private configuration: IConfiguration
-    private gettext: Gettext = undefined
-    private pathPrefix: string = undefined
+    private configuration: IConfiguration = { }
+    private gettext: any = undefined
+    private pathPrefix: string = '/'
 
     public configFunction(eleventyConfig: any, options: IConfiguration = {}) {
         this.init(options)
@@ -37,19 +38,28 @@ class i18n {
             this.loadTranslations()
         })
     
-        eleventyConfig.addShortcode('relocalizePath', (targetedLocale, path) => {
-            const url = this.relocalizePath(targetedLocale, path)
+        eleventyConfig.addShortcode('_', (locale: string, key: string, ...args: string[]) => {
+            return this._(locale, key, ...args)
+        })
+        eleventyConfig.addShortcode('_i', (locale: string, key: string, obj: any) => {
+            return this._i(locale, key, obj)
+        })
+        eleventyConfig.addShortcode('_n', (locale: string, singular: string, plural: string, count: number, ...args: string[]) => {
+            return this._n(locale, singular, plural, count, ...args)
+        })
+        eleventyConfig.addShortcode('_ni', (locale: string, singular: string, plural: string, count: number, obj: any) => {
+            return this._ni(locale, singular, plural, count, obj)
+        })
+        eleventyConfig.addShortcode('_d', (locale: string, format: string, date: moment.MomentInput, timezone: string) => {
+            return this._d(locale, format, date, timezone)
+        })
+        eleventyConfig.addShortcode('_p', (locale: string, path: string) => {
+            const url = this._p(locale, path)
     
             return eleventyConfig.getFilter('url')(url)
         })
-    
-        eleventyConfig.addShortcode('_',   (locale, key, ...args) => this._(locale, key, ...args) )
-        eleventyConfig.addShortcode('_i',  (locale, key, obj) => this._i(locale, key, obj) )
-        eleventyConfig.addShortcode('_n',  (locale, singular, plural, count, ...args) => this._n(locale, singular, plural, count, ...args) )
-        eleventyConfig.addShortcode('_ni', (locale, singular, plural, count, obj) => this._ni(locale, singular, plural, count, obj) )
-        eleventyConfig.addShortcode('_d',  (locale, format, date, timezone) => this._d(locale, format, date, timezone) )
-        eleventyConfig.addShortcode('_p',  (locale, path) => {
-            const url = this._p(locale, path)
+        eleventyConfig.addShortcode('relocalizePath', (targetedLocale: string, path: string) => {
+            const url = this.relocalizePath(targetedLocale, path)
     
             return eleventyConfig.getFilter('url')(url)
         })
@@ -58,7 +68,7 @@ class i18n {
     public init(options: IConfiguration): void {
         this.configuration = { ...this.defaultConfiguration, ...options }
 
-        if( !['po', 'mo'].includes(this.configuration.parserMode) ) {
+        if( !['po', 'mo'].includes(this.configuration.parserMode!) ) {
             throw `Parser mode '${this.configuration.parserMode}' is invalid. It must be 'po' or 'mo'.`
         }
     }
@@ -78,9 +88,9 @@ class i18n {
     }
 
     private parseLocale(locale: string): ILocaleInformation {
-        const match = locale.match(this.configuration.localeRegex)
+        const match = locale.match(this.configuration.localeRegex!)
     
-        if ( !match ) {
+        if ( !match || !match.groups ) {
             throw `Locale ${locale} does not match regex ${this.configuration.localeRegex}`
         }
     
@@ -151,7 +161,7 @@ class i18n {
     
     public _d(locale: string, format: string, date: moment.MomentInput, timezone: string): string {
         this.setLocale(locale)
-    
+
         if( timezone ) {
             return moment(date).tz(timezone).format(format)
         }
@@ -187,22 +197,23 @@ class i18n {
         obj.lang = parsedLocale.lang
         obj.langDir = dir
         obj.locale = locale
-        obj._ = (key, ...args) => {
+
+        obj._ = (key: string, ...args: string[]) => {
             return this._(locale, key, ...args)
         }
-        obj._i = (key, obj) => {
+        obj._i = (key: string, obj: any) => {
             return this._i(locale, key, obj)
         }
-        obj._n = (singular, plural, count, ...args) => {
+        obj._n = (singular: string, plural: string, count: number, ...args: string[]) => {
             return this._n(locale, singular, plural, count, ...args)
         }
-        obj._ni = (singular, plural, count, obj) => {
+        obj._ni = (singular: string, plural: string, count: number, obj: any) => {
             return this._ni(locale, singular, plural, count, obj)
         }
-        obj._d = (format, date, timezone) => {
+        obj._d = (format: string, date: moment.MomentInput, timezone: string) => {
             return this._d(locale, format, date, timezone)
         }
-        obj._p = (basePath) => {
+        obj._p = (basePath: string) => {
             return this._p(locale, basePath)
         }
     
@@ -211,7 +222,7 @@ class i18n {
 
     private loadTranslations(): void {
         if( this.gettext === undefined ) {
-            let gettextParser = undefined
+            let gettextParser: any = undefined
     
             if( this.configuration.parserMode === 'po' ) {
                 gettextParser = parser.po
@@ -223,7 +234,7 @@ class i18n {
                 throw `Parser mode '${this.configuration.parserMode}' is invalid. It must be 'po' or 'mo'.`
             }
     
-            const localesDir = path.join(process.cwd(), this.configuration.localesDirectory)
+            const localesDir = path.join(process.cwd(), this.configuration.localesDirectory!)
             const localeFileName = `messages.${this.configuration.parserMode}`
     
             this.gettext = new Gettext()
@@ -262,10 +273,10 @@ class i18n {
     
         // Node 10.x backward compatibility
         if( !Array.prototype.flat ) {
-            Array.prototype.flat = function() { return [].concat.apply([], this) }
+            Array.prototype.flat = function() { return [].concat.apply([], this as any) }
         }
     
-        const lines = this.configuration.tokenFilePatterns
+        const lines = this.configuration.tokenFilePatterns!
             .map(tokenFilePattern => {
                 return glob.sync(path.join(process.cwd(), tokenFilePattern))
             })
@@ -279,7 +290,7 @@ class i18n {
                     console.log(`Localization tokens found in ${filePath}.`)
                 }
     
-                return [].concat(singularMatches, pluralMatches)
+                return [].concat(singularMatches as any, pluralMatches as any) as RegExpMatchArray
             })
             .flat()
             .filter(match => match) // not null
@@ -293,7 +304,7 @@ class i18n {
         lines.unshift('// It exists only to allow PO editors to get translation keys from source code.')
         lines.unshift('// WARNING! This file is generated by a tool.')
     
-        const messagesPath = path.join(process.cwd(), this.configuration.localesDirectory, this.configuration.javascriptMessages)
+        const messagesPath = path.join(process.cwd(), this.configuration.localesDirectory!, this.configuration.javascriptMessages!)
         const messagesContent = lines.join("\r\n")
     
         console.log(`Writing ${messagesPath}.`)
