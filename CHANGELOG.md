@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ⚠️: Was not SemVer up to version 1.1.3, but is being SemVer from version 1.2.0.
 
-## [Unreleased]
+## [1.5.0] - 2020-08-05
 ### Added
 - Use typescript in core sources
 

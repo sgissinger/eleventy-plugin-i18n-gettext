@@ -1,6 +1,6 @@
 {
   "name": "eleventy-plugin-i18n-gettext",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "description": "Eleventy plugin which adds i18n support with Gettext string translation and moment.js date and times localization",
   "main": ".eleventy.js",
   "scripts": {
