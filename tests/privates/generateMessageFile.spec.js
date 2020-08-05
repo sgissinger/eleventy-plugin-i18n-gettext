@@ -4,7 +4,7 @@ const chai = require('chai')
 const chaiFiles = require('chai-files')
 const file = chaiFiles.file
 const path = require('path')
-const i18n = require('../../src/i18n')
+const i18n = require('../../dist/i18n')
 
 chai.should()
 chai.use(chaiFiles)

@@ -1,7 +1,7 @@
 'use strict'
 
 const chai = require('chai')
-const dynamic_interpolation = require('../../src/i18n-dynamic-interpolation')
+const i18n = require('../../dist/i18n')
 
 chai.should()
 
@@ -14,7 +14,7 @@ describe('dynamic-interpolation', () => {
         }
 
         const expected = 'to be or not to be'
-        const actual = dynamic_interpolation(translation, obj)
+        const actual = i18n.dynamicInterpolation(translation, obj)
 
         actual.should.be.equal(expected)
     })
