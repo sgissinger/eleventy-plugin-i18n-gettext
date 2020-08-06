@@ -10,11 +10,21 @@ import type ILocaleInformation from './ILocaleInformation'
 import type IConfiguration from './IConfiguration'
 
 export default class Translater {
+    private defaultConfiguration: IConfiguration = {
+        localesDirectory: 'locales',
+        parserMode: 'po',
+        javascriptMessages: 'messages.js',
+        tokenFilePatterns: [
+            'src/**/*.njk',
+            'src/**/*.js'
+        ],
+        localeRegex: /^(?<lang>.{2})(?:-(?<country>.{2}))*$/
+    }
     private gettext: any = undefined
     private configuration: IConfiguration = { }
 
-    public setConfiguration(options: IConfiguration): void {
-        this.configuration = options
+    public setConfiguration(options: IConfiguration = {}): void {
+        this.configuration = { ...this.defaultConfiguration, ...options }
 
         if( !['po', 'mo'].includes(this.configuration.parserMode!) ) {
             throw `Parser mode '${this.configuration.parserMode}' is invalid. It must be 'po' or 'mo'.`

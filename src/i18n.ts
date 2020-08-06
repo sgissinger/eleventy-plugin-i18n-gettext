@@ -10,22 +10,10 @@ class i18n {
     private formatter: Formatter = new Formatter()
     private translater: Translater = new Translater()
 
-    private defaultConfiguration: IConfiguration = {
-        localesDirectory: 'locales',
-        parserMode: 'po',
-        javascriptMessages: 'messages.js',
-        tokenFilePatterns: [
-            'src/**/*.njk',
-            'src/**/*.js'
-        ],
-        localeRegex: /^(?<lang>.{2})(?:-(?<country>.{2}))*$/
-    }
     private pathPrefix: string = '/'
 
     public configFunction(eleventyConfig: any, options: IConfiguration = {}) {
-        const configuration = { ...this.defaultConfiguration, ...options }
-
-        this.translater.setConfiguration(configuration)
+        this.translater.setConfiguration(options)
 
         eleventyConfig.on('beforeBuild', () => this.translater.reloadTranslations())
         eleventyConfig.on('beforeWatch', () => this.translater.reloadTranslations())
