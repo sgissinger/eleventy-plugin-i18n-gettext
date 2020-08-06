@@ -5,9 +5,12 @@ const i18n = require('../../dist/i18n')
 
 chai.should()
 
-describe('_p', () => {
+describe('i18n._p', () => {
     beforeEach(() => {
-        i18n.init({
+        i18n.configFunction({
+            on: () => { },
+            addShortcode: () => { }
+        }, {
             localesDirectory: 'tests/assets/locales'
         })
     })

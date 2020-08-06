@@ -7,9 +7,14 @@ const fs = require('fs')
 
 chai.should()
 
-describe('enhance11tydata', () => {
+describe('i18n.enhance11tydata', () => {
+    const eleventyConfig = {
+        on: () => { },
+        addShortcode: () => { }
+    }
+
     it('should have i18n properties and functions set', () => {
-        i18n.init()
+        i18n.configFunction(eleventyConfig)
 
         const actual = i18n.enhance11tydata({}, 'en-us')
 
@@ -26,7 +31,7 @@ describe('enhance11tydata', () => {
     })
 
     it('should have i18n properties set with valid values', () => {
-        i18n.init()
+        i18n.configFunction(eleventyConfig)
 
         const expected = {
             lang: 'fr',
@@ -42,7 +47,7 @@ describe('enhance11tydata', () => {
     })
 
     it('should use path basename to retrieve the locale (linux)', () => {
-        i18n.init()
+        i18n.configFunction(eleventyConfig)
 
         sinon.stub(fs, 'existsSync').returns(true)
 
@@ -62,7 +67,7 @@ describe('enhance11tydata', () => {
 
 
     it('should use path basename to retrieve the locale (windows)', () => {
-        i18n.init()
+        i18n.configFunction(eleventyConfig)
 
         sinon.stub(fs, 'existsSync').returns(true)
 
@@ -81,7 +86,7 @@ describe('enhance11tydata', () => {
     })
 
     it('should keep custom data object values', () => {
-        i18n.init()
+        i18n.configFunction(eleventyConfig)
 
         const expected = {
             eatSnails: true,
@@ -104,7 +109,7 @@ describe('enhance11tydata', () => {
     })
 
     it('should translate a key found in messages.po using custom localeRegex', () => {
-        i18n.init({
+        i18n.configFunction(eleventyConfig, {
             localesDirectory: 'tests/assets/locales-custom',
             localeRegex: /^(?:(?<country>.{2}))*(?<lang>.{2})$/
         })
@@ -119,7 +124,7 @@ describe('enhance11tydata', () => {
 
     it('should throw an error when locale does not match custom localeRegex', () => {
         (() => {
-            i18n.init({
+            i18n.configFunction(eleventyConfig, {
                 localesDirectory: 'tests/assets/locales',
                 localeRegex: /^(?:(?<country>.{2}))*(?<lang>.{2})$/
             })
