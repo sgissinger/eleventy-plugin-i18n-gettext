@@ -1,4 +1,4 @@
-export interface IConfiguration {
+export default interface IConfiguration {
     localesDirectory?: string
     parserMode?: string
     javascriptMessages?: string

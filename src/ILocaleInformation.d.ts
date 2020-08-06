@@ -1,4 +1,4 @@
-export interface ILocaleInformation {
+export default interface ILocaleInformation {
     lang: string
     locale: string
 }
