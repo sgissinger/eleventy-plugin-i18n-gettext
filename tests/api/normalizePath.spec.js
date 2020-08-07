@@ -8,7 +8,7 @@ const i18n = require('../../dist/i18n')
 chai.should()
 chai.use(sinonChai)
 
-describe('normalizePath', () => {
+describe('i18n.normalizePath', () => {
     it('should not normalize path when pathPrefix is /', () => {
         i18n.pathPrefix = '/'
 

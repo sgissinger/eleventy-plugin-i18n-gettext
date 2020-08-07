@@ -101,7 +101,7 @@ describe('i18n.enhance11tydata', () => {
     })
 })
 
-describe('custom localeRegex', () => {
+describe('i18n.enhance11tydata - Custom localeRegex', () => {
     it('should translate a key found in messages.po', () => {
         const eleventyConfig = new UserConfig()
 

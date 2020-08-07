@@ -5,7 +5,7 @@ const Translater = require('../../../dist/Translater').default
 
 chai.should()
 
-describe('translate', () => {
+describe('Translater.translate', () => {
     const translater = new Translater()
     translater.setConfiguration({
         localesDirectory: 'tests/assets/locales'
