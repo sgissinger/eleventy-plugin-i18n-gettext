@@ -6,15 +6,6 @@ const i18n = require('../../dist/i18n')
 chai.should()
 
 describe('i18n.relocalizePath', () => {
-    beforeEach(() => {
-        i18n.configFunction({
-            on: () => { },
-            addShortcode: () => { }
-        }, {
-            localesDirectory: 'tests/assets/locales'
-        })
-    })
-
     it('should relocalizePath a path', () => {
         i18n.pathPrefix = '/'
 
