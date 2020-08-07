@@ -20,11 +20,36 @@ describe('Translater.generateMessageFile', () => {
             ],
             javascriptMessages: 'test-messages.js'
         })
+
         translater.generateMessageFile()
 
         const actual = path.join(process.cwd(), 'tests/assets/locales', 'test-messages.js')
         const expected = path.join(process.cwd(), 'tests/assets/locales', 'expected-messages.js')
 
         file(actual).should.equal(file(expected))
+    })
+    
+    it('should create test-messages.js using flat implementation for Node 10.x', () => {
+        const tempFlat = Array.prototype.flat
+        Array.prototype.flat = undefined
+
+        const translater = new Translater()
+        translater.setConfiguration({
+            localesDirectory: 'tests/assets/locales',
+            tokenFilePatterns: [
+              'tests/assets/filesToParse/**/*.njk',
+              'tests/assets/filesToParse/**/*.js'
+            ],
+            javascriptMessages: 'test-messages.js'
+        })
+
+        translater.generateMessageFile()
+
+        const actual = path.join(process.cwd(), 'tests/assets/locales', 'test-messages.js')
+        const expected = path.join(process.cwd(), 'tests/assets/locales', 'expected-messages.js')
+
+        file(actual).should.equal(file(expected))
+
+        Array.prototype.flat = tempFlat
     })
 })
