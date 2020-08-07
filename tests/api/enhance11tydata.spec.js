@@ -2,20 +2,20 @@
 
 const chai = require('chai')
 const sinon = require('sinon')
+const UserConfig = require('@11ty/eleventy/src/UserConfig')
 const i18n = require('../../dist/i18n')
 const fs = require('fs')
 
 chai.should()
 
 describe('i18n.enhance11tydata', () => {
-    const eleventyConfig = {
-        on: () => { },
-        addShortcode: () => { }
-    }
+    beforeEach(() => {
+        const eleventyConfig = new UserConfig()
+
+        i18n.configFunction(eleventyConfig)
+    })
 
     it('should have i18n properties and functions set', () => {
-        i18n.configFunction(eleventyConfig)
-
         const actual = i18n.enhance11tydata({}, 'en-us')
 
         actual.lang.should.be.a('string')
@@ -31,8 +31,6 @@ describe('i18n.enhance11tydata', () => {
     })
 
     it('should have i18n properties set with valid values', () => {
-        i18n.configFunction(eleventyConfig)
-
         const expected = {
             lang: 'fr',
             langDir: 'ltr',
@@ -47,8 +45,6 @@ describe('i18n.enhance11tydata', () => {
     })
 
     it('should use path basename to retrieve the locale (linux)', () => {
-        i18n.configFunction(eleventyConfig)
-
         sinon.stub(fs, 'existsSync').returns(true)
 
         const expected = {
@@ -67,8 +63,6 @@ describe('i18n.enhance11tydata', () => {
 
 
     it('should use path basename to retrieve the locale (windows)', () => {
-        i18n.configFunction(eleventyConfig)
-
         sinon.stub(fs, 'existsSync').returns(true)
 
         const expected = {
@@ -86,8 +80,6 @@ describe('i18n.enhance11tydata', () => {
     })
 
     it('should keep custom data object values', () => {
-        i18n.configFunction(eleventyConfig)
-
         const expected = {
             eatSnails: true,
             city: 'Paris',
@@ -107,13 +99,17 @@ describe('i18n.enhance11tydata', () => {
         })
         .should.throw("Language direction 'rtt' is invalid. It must be 'ltr' or 'rtl'.")
     })
+})
 
-    it('should translate a key found in messages.po using custom localeRegex', () => {
+describe('custom localeRegex', () => {
+    it('should translate a key found in messages.po', () => {
+        const eleventyConfig = new UserConfig()
+
         i18n.configFunction(eleventyConfig, {
             localesDirectory: 'tests/assets/locales-custom',
             localeRegex: /^(?:(?<country>.{2}))*(?<lang>.{2})$/
         })
-        
+
         const eleventyData = i18n.enhance11tydata({}, 'befr')
 
         const expected = 'Banane'
@@ -122,8 +118,10 @@ describe('i18n.enhance11tydata', () => {
         actual.should.be.equal(expected)
     })
 
-    it('should throw an error when locale does not match custom localeRegex', () => {
+    it('should throw an error when locale does not match localeRegex', () => {
         (() => {
+            const eleventyConfig = new UserConfig()
+
             i18n.configFunction(eleventyConfig, {
                 localesDirectory: 'tests/assets/locales',
                 localeRegex: /^(?:(?<country>.{2}))*(?<lang>.{2})$/

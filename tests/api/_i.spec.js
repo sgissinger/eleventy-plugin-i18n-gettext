@@ -1,16 +1,16 @@
 'use strict'
 
 const chai = require('chai')
+const UserConfig = require('@11ty/eleventy/src/UserConfig')
 const i18n = require('../../dist/i18n')
 
 chai.should()
 
 describe('i18n._i', () => {
     beforeEach(() => {
-        i18n.configFunction({
-            on: () => { },
-            addShortcode: () => { }
-        }, {
+        const eleventyConfig = new UserConfig()
+
+        i18n.configFunction(eleventyConfig, {
             localesDirectory: 'tests/assets/locales'
         })
     })
