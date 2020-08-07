@@ -6,13 +6,15 @@ import Translater from './Translater'
 import Formatter from './Formatter'
 import type IConfiguration from './IConfiguration'
 
+import type { UserConfig } from '@11ty/eleventy'
+
 class i18n {
     private formatter: Formatter = new Formatter()
     private translater: Translater = new Translater()
 
     private pathPrefix: string = '/'
 
-    public configFunction(eleventyConfig: any, options: IConfiguration = {}) {
+    public configFunction(eleventyConfig: UserConfig, options: IConfiguration = {}) {
         this.translater.setConfiguration(options)
 
         eleventyConfig.on('beforeBuild', () => this.translater.reloadTranslations())
@@ -47,6 +49,9 @@ class i18n {
 
     public enhance11tydata(obj: any, locale: string, dir: string = 'ltr'): any {
         if ( fs.existsSync(locale) ) {
+            // Use path.win32 because it can handle all path styles:
+            // - Windows with C:\xxx\yyy\zzz
+            // - Linux with /xxx/yyy/zzz
             locale = path.win32.basename(locale)
         }
 
