@@ -40,6 +40,6 @@ describe('normalizePath', () => {
 
         stub.should.have.been.calledOnce
 
-        sinon.restore()
+        stub.restore()
     })
 })

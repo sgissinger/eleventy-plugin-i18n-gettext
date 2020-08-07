@@ -45,7 +45,7 @@ describe('i18n.enhance11tydata', () => {
     })
 
     it('should use path basename to retrieve the locale (linux)', () => {
-        sinon.stub(fs, 'existsSync').returns(true)
+        const stub = sinon.stub(fs, 'existsSync').returns(true)
 
         const expected = {
             lang: 'fr',
@@ -58,12 +58,12 @@ describe('i18n.enhance11tydata', () => {
         actual.langDir.should.be.equal(expected.langDir)
         actual.locale.should.be.equal(expected.locale)
 
-        sinon.restore()
+        stub.restore()
     })
 
 
     it('should use path basename to retrieve the locale (windows)', () => {
-        sinon.stub(fs, 'existsSync').returns(true)
+        const stub = sinon.stub(fs, 'existsSync').returns(true)
 
         const expected = {
             lang: 'fr',
@@ -76,7 +76,7 @@ describe('i18n.enhance11tydata', () => {
         actual.langDir.should.be.equal(expected.langDir)
         actual.locale.should.be.equal(expected.locale)
 
-        sinon.restore()
+        stub.restore()
     })
 
     it('should keep custom data object values', () => {

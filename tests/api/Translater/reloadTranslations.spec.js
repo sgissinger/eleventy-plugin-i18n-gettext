@@ -23,6 +23,6 @@ describe('Translater.reloadTranslations', () => {
         
         generateMessageFileSpy.should.have.been.calledTwice
 
-        sinon.restore()
+        generateMessageFileSpy.restore()
     })
 })
