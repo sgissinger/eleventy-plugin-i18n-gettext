@@ -12,7 +12,7 @@ class i18n {
     private formatter: Formatter = new Formatter()
     private translater: Translater = new Translater()
 
-    private pathPrefix: string = '/'
+    private pathPrefix: string | undefined = undefined
 
     public configFunction(eleventyConfig: UserConfig, options: IConfiguration = {}) {
         this.translater.setConfiguration(options)
@@ -96,7 +96,7 @@ class i18n {
         }
 
         if( this.pathPrefix !== '/' ) {
-            return path.replace(this.pathPrefix, '/')
+            return path.replace(this.pathPrefix!, '/')
         }
         return path
     }
