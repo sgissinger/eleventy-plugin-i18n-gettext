@@ -30,7 +30,7 @@
     "@11ty/eleventy": "^0.11.1",
     "node-gettext": "^3.0.0",
     "gettext-parser": "^4.0.4",
-    "printf": "^0.5.3",
+    "printf": "^0.6.1",
     "glob": "^7.1.6",
     "moment-timezone": "^0.5.31"
   },
